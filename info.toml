@@ -1,0 +1,8 @@
+[meta]
+name = "HD's Bounty"
+author = "DanOnTheMoon"
+category = "Race"
+version = "0.0.1"
+
+[script]
+dependencies = ["NadeoServices"]
