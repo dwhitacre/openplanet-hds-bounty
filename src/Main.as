@@ -12,6 +12,10 @@ void setMinWidth(int width) {
 	UI::PopStyleVar();
 }
 
+void OnKeyPress(bool down, VirtualKey key) {
+    if (down && key == Settings::Display.WindowVisibleKey) Settings::Display.ToggleVisibility();
+}
+
 void Main() {
     auto app = cast<CTrackMania>(GetApp());
 
