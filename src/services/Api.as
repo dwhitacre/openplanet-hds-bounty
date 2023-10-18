@@ -52,6 +52,26 @@ namespace Api {
         return Json::Parse(req.String());
     }
 
+    array<Json::Value> FetchBulk(const Audience &in aud, const array<string> &in routes) {
+        array<Net::HttpRequest@> reqs = {};
+        for (uint i = 0; i < routes.Length; i++) {
+            auto req = NadeoServices::Get(getAudienceName(aud), getUrl(aud) + "/" + routes[i]);
+            req.Start();
+            reqs.InsertLast(req);
+        }
+
+        array<Json::Value> values = {};
+        for (uint i = 0; i < reqs.Length; i++) {
+            while (!reqs[i].Finished()) {
+                yield();
+            }
+            trace(reqs[i].String());
+            values.InsertLast(Json::Parse(reqs[i].String()));
+        }
+
+        return values;
+    }
+
     string GetAccountId(const string &in playerName) {
         Json::Value accountInfo = Fetch(Audience::NadeoLiveServices, "api/token/club/" + Settings::Config.ClubId + "/member/" + playerName + "/from-login");
         if (accountInfo.Length <= 1) {
@@ -60,6 +80,26 @@ namespace Api {
         
         string accountId = accountInfo["accountId"];
         return accountId;
+    }
+
+    array<string> GetAccountIds(const array<string> &in playerNames) {
+        array<string> routes = {};
+        for (uint i = 0; i < playerNames.Length; i++) {
+            routes.InsertLast("api/token/club/" + Settings::Config.ClubId + "/member/" + playerNames[i] + "/from-login");
+        }
+
+        array<Json::Value> accountInfos = FetchBulk(Audience::NadeoLiveServices, routes);
+        array<string> accountIds = {};
+        for (uint i = 0; i < accountInfos.Length; i++) {
+            if (accountInfos[i].Length <= 1) {
+                throw("Failed to get accountId for player: " + playerNames[i]);
+            }
+            
+            string accountId = accountInfos[i]["accountId"];
+            accountIds.InsertLast(accountId);
+        }
+
+        return accountIds;
     }
 
     int GetPBTime(const string &in accountId, const string &in mapId) {

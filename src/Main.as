@@ -18,6 +18,7 @@ void Main() {
     auto app = cast<CTrackMania>(GetApp());
 
     Api::Init();
+    AccountMgr::Init(Settings::Config.FlatPlayerNames);
     
     while (true) {
         auto map = app.RootMap;

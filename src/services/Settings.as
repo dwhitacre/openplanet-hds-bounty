@@ -70,10 +70,24 @@ namespace Settings {
         {
             get const
             {
-                auto playersOnTeam = safeStringArray(Settings_Config_Players);
+                array<string> playersOnTeam = safeStringArray(Settings_Config_Players);
                 array<array<string>> players = {};
                 for (uint i = 0; i < playersOnTeam.Length; i++) {
                     players.InsertLast(safeStringArray(playersOnTeam[i], ","));
+                }
+                return players;
+            }
+        }
+
+        array<string> FlatPlayerNames
+        {
+            get const
+            {
+                array<string> players = {};
+                for (uint i = 0; i < PlayerNames.Length; i++) {
+                    for (uint j = 0; j < PlayerNames[i].Length; j++) {
+                        players.InsertLast(PlayerNames[i][j]);
+                    }
                 }
                 return players;
             }

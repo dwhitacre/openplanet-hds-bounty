@@ -18,4 +18,11 @@ namespace AccountMgr {
     void Debug() {
         print(accountIdCache.ToJson());
     }
+
+    void Init(const array<string> &in playerNames) {
+        auto accountIds = Api::GetAccountIds(playerNames);
+        for (uint i = 0; i < accountIds.Length; i++) {
+            accountIdCache.Set(playerNames[i], accountIds[i]);
+        }
+    }
 }
