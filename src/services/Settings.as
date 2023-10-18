@@ -1,7 +1,7 @@
-[Setting category="Config" name="Team Names" multiline description="Place each team name on its own line."]
+[Setting category="Config" name="Team Names" multiline description="Place each team name on its own line. Reload the plugin after edit."]
 string Settings_Config_TeamNames = "Orowoe's Team\nPurple Dragon Yeet\nMilky Way";
 
-[Setting category="Config" name="Players" multiline description="Place each team's players names on their own line. The player names should be comma-separated values."]
+[Setting category="Config" name="Players" multiline description="Place each team's players names on their own line. The player names should be comma-separated values. Reload the plugin after edit."]
 string Settings_Config_Players = "rebsterr, orowoe, sambertooth, w0lfx01_tm\njoeym145, dummy_tm, wayweewoo, danonthemoon.\ncosmos24, microwavef1, milkyfurry, omentrials";
 
 [Setting category="Config" name="Map Uid" description="The map Uid from trackmania.io for the current bounty"]
@@ -48,10 +48,6 @@ namespace Settings {
 
     config Config = config();
     display Display = display();
-
-    void Debug() {
-        Config.Debug();
-    }
 
     class config {
         config() {}

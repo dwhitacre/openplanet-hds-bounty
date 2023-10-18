@@ -1,4 +1,7 @@
 namespace Display {
+    array<TeamVM@> Teams = {};
+    array<PlayerVM@> Players = {};
+
     void RenderMenu() {
         if (UI::MenuItem("\\$db4" + Icons::Trophy + "\\$z " + Settings::Config.BountyName, "", Settings::Display.WindowVisible)) {
             Settings::Display.ToggleVisibility();
@@ -42,23 +45,23 @@ namespace Display {
             
             int numCols = 3;
             if (UI::BeginTable("table", numCols, UI::TableFlags::SizingFixedFit)) {
-                for (uint i = 0; i < teams.Length; i++) {
+                for (uint i = 0; i < Teams.Length; i++) {
                   UI::TableNextRow();
                   
                   UI::TableNextColumn();
-                  teams[i].Name();
+                  Teams[i].Name();
                   UI::TableNextColumn();
-                  teams[i].AvgTime();
+                  Teams[i].TotalTime();
                   UI::TableNextColumn();
-                  teams[i].TotalTime();
-                  teams[i].players.SortAsc();
+                  Teams[i].AvgTime();
+                  Teams[i].players.SortAsc();
                   
-                  for (uint j = 0; j < teams[i].players.Length; j++) {
+                  for (uint j = 0; j < Teams[i].players.Length; j++) {
                     UI::TableNextRow();
                     UI::TableNextColumn();
-                    teams[i].players[j].Name();
+                    Teams[i].players[j].Name();
                     UI::TableNextColumn();
-                    teams[i].players[j].Time();
+                    Teams[i].players[j].Time();
                   }
 
                   UI::TableNextRow();

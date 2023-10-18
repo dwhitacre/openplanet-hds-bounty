@@ -1,6 +1,18 @@
 class TeamVM {
     string name = "Unknown Team";
-    array<PlayerVM@> players = {};
+    int id = 0;
+    
+    array<PlayerVM@> players
+    {
+        get const
+        {
+            array<PlayerVM@> p = {};
+            for (uint i = 0; i < Display::Players.Length; i++) {
+                if (Display::Players[i].teamId == this.id) p.InsertLast(Display::Players[i]);
+            }
+            return p;
+        }
+    }
 
     int totalTime 
     { 
@@ -25,9 +37,9 @@ class TeamVM {
     }
 
     TeamVM() {}
-    TeamVM(const string &in name, const array<PlayerVM@> &in players) {
+    TeamVM(const string &in name, const int &in id) {
         this.name = name;
-        this.players = players;
+        this.id = id;
     }
 
     void TotalTime() {
@@ -45,12 +57,4 @@ class TeamVM {
     int opCmp(TeamVM@ other) {
         return TimeMgr::CompareTimes(this.totalTime, other.totalTime);
     }
-}
-
-TeamVM@ createTeamVM(const string &in name, const array<string> &in players, const string &in mapId) {
-    array<PlayerVM@> playerVMs = {};
-    for (uint i = 0; i < players.Length; i++) {
-        playerVMs.InsertLast(createPlayerVM(players[i], mapId));
-    }
-    return TeamVM(name, playerVMs);
 }

@@ -48,11 +48,10 @@ namespace Api {
         while (!req.Finished()) {
             yield();
         }
-        trace(req.String());
         return Json::Parse(req.String());
     }
 
-    array<Json::Value> FetchBulk(const Audience &in aud, const array<string> &in routes) {
+    array<Json::Value> FetchMany(const Audience &in aud, const array<string> &in routes) {
         array<Net::HttpRequest@> reqs = {};
         for (uint i = 0; i < routes.Length; i++) {
             auto req = NadeoServices::Get(getAudienceName(aud), getUrl(aud) + "/" + routes[i]);
@@ -65,7 +64,6 @@ namespace Api {
             while (!reqs[i].Finished()) {
                 yield();
             }
-            trace(reqs[i].String());
             values.InsertLast(Json::Parse(reqs[i].String()));
         }
 
@@ -88,7 +86,7 @@ namespace Api {
             routes.InsertLast("api/token/club/" + Settings::Config.ClubId + "/member/" + playerNames[i] + "/from-login");
         }
 
-        array<Json::Value> accountInfos = FetchBulk(Audience::NadeoLiveServices, routes);
+        array<Json::Value> accountInfos = FetchMany(Audience::NadeoLiveServices, routes);
         array<string> accountIds = {};
         for (uint i = 0; i < accountInfos.Length; i++) {
             if (accountInfos[i].Length <= 1) {
@@ -110,6 +108,27 @@ namespace Api {
         }
         
         return pbTimes[0]["recordScore"]["time"];
+    }
+
+    array<int> GetPBTimes(const array<string> &in accountIds, const string &in mapId) {
+        Json::Value pbTimes = Fetch(Audience::NadeoServices, "mapRecords/?accountIdList=" + string::Join(accountIds, ",") + "&mapIdList=" + mapId);
+        if (pbTimes.Length < 1) {
+            throw("Failed to get pbTime for mapId: " + mapId);
+        }
+
+        array<int> times = {};
+        times.Resize(accountIds.Length);
+
+        for (uint i = 0; i < pbTimes.Length; i++) {
+            string accountId = pbTimes[i]["accountId"];
+            int accountIdIdx = accountIds.Find(accountId);
+
+            int time = -1;
+            if (accountIdIdx >= 0 && pbTimes[i]["recordScore"] !is null) time = pbTimes[i]["recordScore"]["time"];
+            times[accountIdIdx] = time;
+        }
+        
+        return times;
     }
 
     string GetMapId(const string &in mapUid) {

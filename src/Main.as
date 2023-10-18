@@ -1,5 +1,3 @@
-array<TeamVM@> teams = {};
-
 void RenderMenu() {
     Display::RenderMenu();
 }
@@ -19,24 +17,29 @@ void Main() {
 
     Api::Init();
     AccountMgr::Init(Settings::Config.FlatPlayerNames);
+
+    auto teamNames = Settings::Config.TeamNames;
+    auto playerNames = Settings::Config.PlayerNames;
+
+    for (uint i = 0; i < playerNames.Length; i++) {
+        auto teamName = (teamNames.Length - 1 < i) ? ("Team " + (i + 1)) : teamNames[i];
+        Display::Teams.InsertLast(TeamVM(teamName, i));
+
+        for (uint j = 0; j < playerNames[i].Length; j++) {
+            Display::Players.InsertLast(PlayerVM(playerNames[i][j], i));
+        }
+    }
     
     while (true) {
         auto map = app.RootMap;
-        string currentMapUid = Settings::Config.MapUid;
+        string mapUid = Settings::Config.MapUid;
         if (!Settings_Config_LockMapUid && map !is null && map.MapInfo.MapUid != "" && app.Editor is null) {
-            currentMapUid = map.MapInfo.MapUid;
+            mapUid = map.MapInfo.MapUid;
         }
+        
+        TimeMgr::UpdateTimes(mapUid);
+        Display::Teams.SortAsc();
 
-        auto teamNames = Settings::Config.TeamNames;
-        auto playerNames = Settings::Config.PlayerNames;
-        teams = {};
-        
-        for (uint i = 0; i < playerNames.Length; i++) {
-            auto teamName = (teamNames.Length - 1 < i) ? ("Team " + (i + 1)) : teamNames[i];
-            teams.InsertLast(createTeamVM(teamName, playerNames[i], currentMapUid));
-        }
-        
-        teams.SortAsc();
-        sleep(500);
+        sleep(15000);
     }
 }

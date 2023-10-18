@@ -1,23 +1,12 @@
 namespace TimeMgr {
-    dictionary timeCache = {};
-
     int GetPBTime(const string &in accountId, const string &in mapUid) {
-        int time = -1;
-        if (timeCache.Exists(accountId)) timeCache.Get(accountId, time);
-        if (time < 0) {
-            auto mapId = MapMgr::GetMapId(mapUid);
-            time = Api::GetPBTime(accountId, mapId);
-            timeCache.Set(accountId, time);
-        }
-        return time;
+        string mapId = MapMgr::GetMapId(mapUid);
+        return Api::GetPBTime(accountId, mapId);
     }
 
-    void Clear() {
-        timeCache.DeleteAll();
-    }
-
-    void Debug() {
-        print(timeCache.ToJson());
+    array<int> GetPBTimes(const array<string> &in accountIds, const string &in mapUid) {
+        string mapId = MapMgr::GetMapId(mapUid);
+        return Api::GetPBTimes(accountIds, mapId);
     }
 
     int CompareTimes(const int &in timeA, const int &in timeB) {
@@ -27,6 +16,18 @@ namespace TimeMgr {
         } else {
             int64 diff = int64(timeB) - int64(timeA);
             return diff == 0 ? 0 : diff > 0 ? 1 : -1;
+        }
+    }
+
+    void UpdateTimes(const string &in mapUid) {
+        array<string> accountIds = {};
+        for (uint i = 0; i < Display::Players.Length; i++) {
+            accountIds.InsertLast(Display::Players[i].accountId);
+        }
+
+        array<int> times = GetPBTimes(accountIds, mapUid);
+        for (uint i = 0; i < Display::Players.Length; i++) {
+            Display::Players[i].time = times[i];
         }
     }
 }
