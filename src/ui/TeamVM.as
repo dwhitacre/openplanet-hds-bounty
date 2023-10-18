@@ -10,6 +10,7 @@ class TeamVM {
             for (uint i = 0; i < Display::Players.Length; i++) {
                 if (Display::Players[i].teamId == this.id) p.InsertLast(Display::Players[i]);
             }
+            p.SortAsc();
             return p;
         }
     }

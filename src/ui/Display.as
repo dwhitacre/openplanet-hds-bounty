@@ -54,7 +54,6 @@ namespace Display {
                   Teams[i].TotalTime();
                   UI::TableNextColumn();
                   Teams[i].AvgTime();
-                  Teams[i].players.SortAsc();
                   
                   for (uint j = 0; j < Teams[i].players.Length; j++) {
                     UI::TableNextRow();
