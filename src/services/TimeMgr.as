@@ -5,7 +5,7 @@ namespace TimeMgr {
         int time = -1;
         if (timeCache.Exists(accountId)) timeCache.Get(accountId, time);
         if (time < 0) {
-            auto mapId = Api::GetMapId(mapUid);
+            auto mapId = MapMgr::GetMapId(mapUid);
             time = Api::GetPBTime(accountId, mapId);
             timeCache.Set(accountId, time);
         }
