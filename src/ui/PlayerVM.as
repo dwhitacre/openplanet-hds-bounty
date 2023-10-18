@@ -12,11 +12,11 @@ class PlayerVM {
     }
 
     void Time() {
-        Display::RenderTime(this.time);
+        Display::RenderPlayerTime(this.time);
     }
 
     void Name() {
-        Display::RenderName(this.name);
+        Display::RenderPlayer(this.name);
     }
 
     int opCmp(PlayerVM@ other) {

@@ -44,15 +44,15 @@ class TeamVM {
     }
 
     void TotalTime() {
-        Display::RenderTime(this.totalTime);
+        Display::RenderTeamTotalTime(this.totalTime);
     }
 
     void AvgTime() {
-        Display::RenderAvgTime(this.avgTime);
+        Display::RenderTeamAverageTime(this.avgTime);
     }
 
     void Name() {
-        Display::RenderName(this.name);
+        Display::RenderTeam(this.name);
     }
 
     int opCmp(TeamVM@ other) {

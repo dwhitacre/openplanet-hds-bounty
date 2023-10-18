@@ -31,6 +31,39 @@ vec2 Settings_Display_Anchor = vec2(0, 170);
 [Setting category="Display" name="Lock window position" description="Prevents the window moving when click and drag or when the game window changes size."]
 bool Settings_Display_LockPosition = false;
 
+[Setting category="Display" name="Show Bounty Name"]
+bool Settings_Display_ShowBountyName = true;
+
+[Setting category="Display" name="Show Header"]
+bool Settings_Display_ShowHeader = false;
+
+[Setting category="Display" name="Show Team Average Times"]
+bool Settings_Display_ShowTeamAverageTimes = true;
+
+[Setting category="Display" name="Show Players Times"]
+bool Settings_Display_ShowPlayersTimes = true;
+
+[Setting category="Display" color name="Bounty Name Color"]
+vec3 Settings_Display_BountyNameColor = vec3(1, 1, 1);
+
+[Setting category="Display" color name="Header Color"]
+vec3 Settings_Display_HeaderColor = vec3(0.75f, 0.75f, 0.75f);
+
+[Setting category="Display" color name="Team Color"]
+vec3 Settings_Display_TeamColor = vec3(1, 1, 1);
+
+[Setting category="Display" color name="Team Total Time Color"]
+vec3 Settings_Display_TeamTotalTimeColor = vec3(1, 1, 1);
+
+[Setting category="Display" color name="Team Average Time Color"]
+vec3 Settings_Display_TeamAverageTimeColor = vec3(0, 1, 1);
+
+[Setting category="Display" color name="Player Color"]
+vec3 Settings_Display_PlayerColor = vec3(0.4f, 0.6f, 1);
+
+[Setting category="Display" color name="Player Time Color"]
+vec3 Settings_Display_PlayerTimeColor = vec3(0, 0.67f, 0.67f);
+
 namespace Settings {
     string safeString(const string &in setting) {
         auto str = setting.Trim();
@@ -173,6 +206,94 @@ namespace Settings {
             get const
             {
                 return Settings_Display_LockPosition;
+            }
+        }
+
+        bool ShowBountyName
+        {
+            get const
+            {
+                return Settings_Display_ShowBountyName;
+            }
+        }
+
+        bool ShowHeader
+        {
+            get const
+            {
+                return Settings_Display_ShowHeader;
+            }
+        }
+
+        bool ShowTeamAverageTimes
+        {
+            get const
+            {
+                return Settings_Display_ShowTeamAverageTimes;
+            }
+        }
+
+        bool ShowPlayersTimes
+        {
+            get const
+            {
+                return Settings_Display_ShowPlayersTimes;
+            }
+        }
+
+        vec3 BountyNameColor
+        {
+            get const
+            {
+                return Settings_Display_BountyNameColor;
+            }
+        }
+
+        vec3 HeaderColor
+        {
+            get const
+            {
+                return Settings_Display_HeaderColor;
+            }
+        }
+
+        vec3 TeamColor
+        {
+            get const
+            {
+                return Settings_Display_TeamColor;
+            }
+        }
+
+        vec3 TeamTotalTimeColor
+        {
+            get const
+            {
+                return Settings_Display_TeamTotalTimeColor;
+            }
+        }
+
+        vec3 TeamAverageTimeColor
+        {
+            get const
+            {
+                return Settings_Display_TeamAverageTimeColor;
+            }
+        }
+
+        vec3 PlayerColor
+        {
+            get const
+            {
+                return Settings_Display_PlayerColor;
+            }
+        }
+
+        vec3 PlayerTimeColor
+        {
+            get const
+            {
+                return Settings_Display_PlayerTimeColor;
             }
         }
 

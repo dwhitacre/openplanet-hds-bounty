@@ -8,16 +8,44 @@ namespace Display {
         }
     }
 
-    void RenderName(const string &in name, string &in style = "\\$fff") {
-        UI::Text(style + name);
-    }
-    
-    void RenderTime(const int &in time, string &in style = "\\$fff") {
-        UI::Text(style + (time > 0 ? Time::Format(time) : "-:--.---"));
+    void RenderStyledText(const string &in name, vec3 &in style = vec3(1, 1, 1)) {
+        UI::Text(Text::FormatOpenplanetColor(style) + name);
     }
 
-    void RenderAvgTime(const int &in time, string &in style = "\\$fff") {
-        UI::Text(style + "(" + (time > 0 ? Time::Format(time) : "-:--.---") + ")");
+    void RenderTime(const int &in time, vec3 &in style) {
+        RenderStyledText((time > 0 ? Time::Format(time) : "-:--.---"), style);
+    }
+
+    void RenderAvgTime(const int &in time, vec3 &in style) {
+        RenderStyledText("(" + (time > 0 ? Time::Format(time) : "-:--.---") + ")", style);
+    }
+
+    void RenderBountyName() {
+        RenderStyledText(Settings::Config.BountyName, Settings::Display.BountyNameColor);
+    }
+
+    void RenderHeader(const string &in name) {
+        RenderStyledText(name, Settings::Display.HeaderColor);
+    }
+
+    void RenderTeam(const string &in name) {
+        RenderStyledText(name, Settings::Display.TeamColor);
+    }
+
+    void RenderTeamTotalTime(const int &in time) {
+        RenderTime(time, Settings::Display.TeamTotalTimeColor);
+    }
+
+    void RenderTeamAverageTime(const int &in time) {
+        RenderAvgTime(time, Settings::Display.TeamAverageTimeColor);
+    }
+
+    void RenderPlayer(const string &in name) {
+        RenderStyledText(name, Settings::Display.PlayerColor);
+    }
+
+    void RenderPlayerTime(const int &in time) {
+        RenderTime(time, Settings::Display.PlayerTimeColor);
     }
 
     void Render() {
@@ -37,33 +65,55 @@ namespace Display {
             
             UI::BeginGroup();
             
-            UI::BeginTable("header", 1, UI::TableFlags::SizingFixedFit);
-            UI::TableNextRow();
-            UI::TableNextColumn();
-            UI::Text(Settings::Config.BountyName);
-            UI::EndTable();
+            if (Settings::Display.ShowBountyName)
+            {
+                UI::BeginTable("bountyName", 1, UI::TableFlags::SizingFixedFit);
+                UI::TableNextRow();
+                UI::TableNextColumn();
+                RenderBountyName();
+                UI::EndTable();
+            }
             
-            int numCols = 3;
+            int numCols = Settings::Display.ShowTeamAverageTimes ? 3 : 2;
             if (UI::BeginTable("table", numCols, UI::TableFlags::SizingFixedFit)) {
-                for (uint i = 0; i < Teams.Length; i++) {
-                  UI::TableNextRow();
-                  
-                  UI::TableNextColumn();
-                  Teams[i].Name();
-                  UI::TableNextColumn();
-                  Teams[i].TotalTime();
-                  UI::TableNextColumn();
-                  Teams[i].AvgTime();
-                  
-                  for (uint j = 0; j < Teams[i].players.Length; j++) {
+                if (Settings::Display.ShowHeader) {
                     UI::TableNextRow();
+                    
                     UI::TableNextColumn();
-                    Teams[i].players[j].Name();
+                    RenderHeader("Name");
                     UI::TableNextColumn();
-                    Teams[i].players[j].Time();
-                  }
+                    RenderHeader("Time");
 
-                  UI::TableNextRow();
+                    if (Settings::Display.ShowTeamAverageTimes) {
+                        UI::TableNextColumn();
+                        RenderHeader("Avg");
+                    }
+                }
+
+                for (uint i = 0; i < Teams.Length; i++) {
+                    UI::TableNextRow();
+                    
+                    UI::TableNextColumn();
+                    Teams[i].Name();
+                    UI::TableNextColumn();
+                    Teams[i].TotalTime();
+
+                    if (Settings::Display.ShowTeamAverageTimes) {
+                        UI::TableNextColumn();
+                        Teams[i].AvgTime();
+                    }
+                    
+                    if (Settings::Display.ShowPlayersTimes) {
+                        for (uint j = 0; j < Teams[i].players.Length; j++) {
+                            UI::TableNextRow();
+                            UI::TableNextColumn();
+                            Teams[i].players[j].Name();
+                            UI::TableNextColumn();
+                            Teams[i].players[j].Time();
+                        }
+                    }
+
+                    UI::TableNextRow();
                 }
               
                 UI::EndTable();
