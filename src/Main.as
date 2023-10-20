@@ -22,26 +22,22 @@ void Main() {
     Api::Init();
     AccountMgr::Init(Settings::Config.FlatPlayerNames);
 
-    auto teamNames = Settings::Config.TeamNames;
-    auto playerNames = Settings::Config.PlayerNames;
-
-    for (uint i = 0; i < playerNames.Length; i++) {
-        auto teamName = (teamNames.Length - 1 < i) ? ("Team " + (i + 1)) : teamNames[i];
+    for (uint i = 0; i < Settings::Config.PlayerNames.Length; i++) {
+        auto teamName = (Settings::Config.TeamNames.Length - 1 < i) ? ("Team " + (i + 1)) : Settings::Config.TeamNames[i];
         Display::Teams.InsertLast(TeamVM(teamName, i));
 
-        for (uint j = 0; j < playerNames[i].Length; j++) {
-            Display::Players.InsertLast(PlayerVM(playerNames[i][j], i));
+        for (uint j = 0; j < Settings::Config.PlayerNames[i].Length; j++) {
+            Display::Players.InsertLast(PlayerVM(Settings::Config.PlayerNames[i][j], i));
         }
     }
     
     while (true) {
         auto map = app.RootMap;
-        string mapUid = Settings::Config.MapUid;
-        if (!Settings_Config_LockMapUid && map !is null && map.MapInfo.MapUid != "" && app.Editor is null) {
-            mapUid = map.MapInfo.MapUid;
+
+        TimeMgr::UpdateTimes((!Settings_Config_LockMapUid && map !is null && map.MapInfo.MapUid != "" && app.Editor is null) ? map.MapInfo.MapUid : Settings::Config.MapUid);
+        for (uint i = 0; i < Display::Teams.Length; i++) {
+            Display::Teams[i].Clear();
         }
-        
-        TimeMgr::UpdateTimes(mapUid);
         Display::Teams.SortAsc();
 
         sleep(15000);

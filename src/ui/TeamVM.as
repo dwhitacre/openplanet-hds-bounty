@@ -1,23 +1,24 @@
 class TeamVM {
     string name = "Unknown Team";
     int id = 0;
-    
-    array<PlayerVM@> players
+
+    array<PlayerVM@> cachedPlayers = {};
+    array<PlayerVM@>@ players
     {
-        get const
+        get
         {
-            array<PlayerVM@> p = {};
+            if (cachedPlayers.Length > 0) return cachedPlayers;
             for (uint i = 0; i < Display::Players.Length; i++) {
-                if (Display::Players[i].teamId == this.id) p.InsertLast(Display::Players[i]);
+                if (Display::Players[i].teamId == this.id) cachedPlayers.InsertLast(Display::Players[i]);
             }
-            p.SortAsc();
-            return p;
+            cachedPlayers.SortAsc();
+            return cachedPlayers;
         }
     }
 
     int totalTime 
     { 
-        get const
+        get
         {
             if (this.players.Length < 1) return -1;
             int time = 0;
@@ -30,7 +31,7 @@ class TeamVM {
 
     int avgTime 
     { 
-        get const
+        get
         {
             if (this.players.Length < 1) return -1;
             return this.totalTime / this.players.Length;
@@ -41,6 +42,10 @@ class TeamVM {
     TeamVM(const string &in name, const int &in id) {
         this.name = name;
         this.id = id;
+    }
+
+    void Clear() {
+        cachedPlayers.RemoveRange(0, cachedPlayers.Length);
     }
 
     void TotalTime() {

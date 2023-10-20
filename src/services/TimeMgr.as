@@ -9,7 +9,7 @@ namespace TimeMgr {
         return Api::GetPBTimes(accountIds, mapId);
     }
 
-    int CompareTimes(const int &in timeA, const int &in timeB) {
+    int CompareTimes(int timeA, int timeB) {
         if ((timeA >= 0) == (timeB >= 0)) {
             int64 diff = int64(timeA) - int64(timeB);
             return diff == 0 ? 0 : diff > 0 ? 1 : -1;

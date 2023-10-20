@@ -5,7 +5,7 @@ class PlayerVM {
     int time = -1;
 
     PlayerVM() {}
-    PlayerVM(const string &in name, const int &in teamId) {
+    PlayerVM(const string &in name, int teamId) {
         this.accountId = AccountMgr::GetAccountId(name);
         this.name = name;
         this.teamId = teamId;

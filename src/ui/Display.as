@@ -12,11 +12,11 @@ namespace Display {
         UI::Text(Text::FormatOpenplanetColor(style) + name);
     }
 
-    void RenderTime(const int &in time, vec3 &in style) {
+    void RenderTime(int time, vec3 &in style) {
         RenderStyledText((time > 0 ? Time::Format(time) : "-:--.---"), style);
     }
 
-    void RenderAvgTime(const int &in time, vec3 &in style) {
+    void RenderAvgTime(int time, vec3 &in style) {
         RenderStyledText("(" + (time > 0 ? Time::Format(time) : "-:--.---") + ")", style);
     }
 
@@ -32,11 +32,11 @@ namespace Display {
         RenderStyledText(name, Settings::Display.TeamColor);
     }
 
-    void RenderTeamTotalTime(const int &in time) {
+    void RenderTeamTotalTime(int time) {
         RenderTime(time, Settings::Display.TeamTotalTimeColor);
     }
 
-    void RenderTeamAverageTime(const int &in time) {
+    void RenderTeamAverageTime(int time) {
         RenderAvgTime(time, Settings::Display.TeamAverageTimeColor);
     }
 
@@ -44,7 +44,7 @@ namespace Display {
         RenderStyledText(name, Settings::Display.PlayerColor);
     }
 
-    void RenderPlayerTime(const int &in time) {
+    void RenderPlayerTime(int time) {
         RenderTime(time, Settings::Display.PlayerTimeColor);
     }
 

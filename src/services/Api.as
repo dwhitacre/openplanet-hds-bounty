@@ -75,9 +75,7 @@ namespace Api {
         if (accountInfo.Length <= 1) {
             throw("Failed to get accountId for player: " + playerName);
         }
-        
-        string accountId = accountInfo["accountId"];
-        return accountId;
+        return accountInfo["accountId"];
     }
 
     array<string> GetAccountIds(const array<string> &in playerNames) {
@@ -92,9 +90,8 @@ namespace Api {
             if (accountInfos[i].Length <= 1) {
                 throw("Failed to get accountId for player: " + playerNames[i]);
             }
-            
-            string accountId = accountInfos[i]["accountId"];
-            accountIds.InsertLast(accountId);
+
+            accountIds.InsertLast(accountInfos[i]["accountId"]);
         }
 
         return accountIds;
@@ -136,8 +133,6 @@ namespace Api {
         if (mapInfo.Length < 1) {
             throw("Failed to get mapInfo for mapUid: " + mapUid);
         }
-        
-        string mapId = mapInfo[0]["mapId"];
-        return mapId;
+        return mapInfo[0]["mapId"];
     }
 }
