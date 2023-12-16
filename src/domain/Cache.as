@@ -7,7 +7,7 @@ class Cache {
         return "";
     }
 
-    array<string> callMany(const array<string> &in keys) {
+    array<string> callMany(array<string>@ keys) {
         throw('Cache implementations need to override callMany');
         return {};
     }
@@ -22,7 +22,7 @@ class Cache {
         return value;
     }
 
-    void Init(const array<string> &in keys) {
+    void Init(array<string>@ keys) {
         array<string> values = callMany(keys);
         if (values.Length != keys.Length) throw('Cache implementations callMany needs to return same amount of values as keys');
 
@@ -33,9 +33,5 @@ class Cache {
 
     void Clear() {
         c.DeleteAll();
-    }
-
-    void Debug() {
-        print(c.ToJson());
     }
 }

@@ -1,11 +1,13 @@
 namespace TimeMgr {
     int GetPBTime(const string &in accountId, const string &in mapUid) {
         string mapId = MapMgr::GetMapId(mapUid);
+        LogTrace("Getting pb time:\naccountId: " + accountId + "\nmapId: " + mapId);
         return Api::GetPBTime(accountId, mapId);
     }
 
-    array<int> GetPBTimes(const array<string> &in accountIds, const string &in mapUid) {
+    array<int> GetPBTimes(array<string>@ accountIds, const string &in mapUid) {
         string mapId = MapMgr::GetMapId(mapUid);
+        LogTrace("Getting pb times:\nmapId: " + mapId + "\naccountIds:\n" + ArrayToString(accountIds));
         return Api::GetPBTimes(accountIds, mapId);
     }
 
@@ -19,15 +21,15 @@ namespace TimeMgr {
         }
     }
 
-    void UpdateTimes(const string &in mapUid) {
+    void UpdateTimes(array<PlayerVM@>@ players, const string &in mapUid) {
         array<string> accountIds = {};
-        for (uint i = 0; i < Display::Players.Length; i++) {
-            accountIds.InsertLast(Display::Players[i].accountId);
+        for (uint i = 0; i < players.Length; i++) {
+            accountIds.InsertLast(players[i].accountId);
         }
 
         array<int> times = GetPBTimes(accountIds, mapUid);
-        for (uint i = 0; i < Display::Players.Length; i++) {
-            Display::Players[i].time = times[i];
+        for (uint i = 0; i < players.Length; i++) {
+            players[i].time = times[i];
         }
     }
 }

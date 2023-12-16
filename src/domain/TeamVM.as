@@ -1,20 +1,7 @@
 class TeamVM {
     string name = "Unknown Team";
     int id = 0;
-
-    array<PlayerVM@> cachedPlayers = {};
-    array<PlayerVM@>@ players
-    {
-        get
-        {
-            if (cachedPlayers.Length > 0) return cachedPlayers;
-            for (uint i = 0; i < Display::Players.Length; i++) {
-                if (Display::Players[i].teamId == this.id) cachedPlayers.InsertLast(Display::Players[i]);
-            }
-            cachedPlayers.SortAsc();
-            return cachedPlayers;
-        }
-    }
+    array<PlayerVM@>@ players = {};
 
     int totalTime 
     { 
@@ -44,23 +31,15 @@ class TeamVM {
         this.id = id;
     }
 
-    void Clear() {
-        cachedPlayers.RemoveRange(0, cachedPlayers.Length);
-    }
-
-    void TotalTime() {
-        Display::RenderTeamTotalTime(this.totalTime);
-    }
-
-    void AvgTime() {
-        Display::RenderTeamAverageTime(this.avgTime);
-    }
-
-    void Name() {
-        Display::RenderTeam(this.name);
-    }
-
     int opCmp(TeamVM@ other) {
         return TimeMgr::CompareTimes(this.totalTime, other.totalTime);
+    }
+
+    string ToString() {
+        return KeyValuesToString({
+            {"name", this.name},
+            {"id", Text::Format("%d", this.id)},
+            {"playersLength", Text::Format("%d", this.players.Length)}
+        });
     }
 }

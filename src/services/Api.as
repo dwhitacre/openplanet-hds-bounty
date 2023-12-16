@@ -51,7 +51,7 @@ namespace Api {
         return Json::Parse(req.String());
     }
 
-    array<Json::Value> FetchMany(const Audience &in aud, const array<string> &in routes) {
+    array<Json::Value> FetchMany(const Audience &in aud, array<string>@ routes) {
         array<Net::HttpRequest@> reqs = {};
         for (uint i = 0; i < routes.Length; i++) {
             auto req = NadeoServices::Get(getAudienceName(aud), getUrl(aud) + "/" + routes[i]);
@@ -71,17 +71,17 @@ namespace Api {
     }
 
     string GetAccountId(const string &in playerName) {
-        Json::Value accountInfo = Fetch(Audience::NadeoLiveServices, "api/token/club/" + Settings::Config.ClubId + "/member/" + playerName + "/from-login");
+        Json::Value accountInfo = Fetch(Audience::NadeoLiveServices, "api/token/club/" + S_Advanced_ClubId + "/member/" + playerName + "/from-login");
         if (accountInfo.Length <= 1) {
             throw("Failed to get accountId for player: " + playerName);
         }
         return accountInfo["accountId"];
     }
 
-    array<string> GetAccountIds(const array<string> &in playerNames) {
+    array<string> GetAccountIds(array<string>@ playerNames) {
         array<string> routes = {};
         for (uint i = 0; i < playerNames.Length; i++) {
-            routes.InsertLast("api/token/club/" + Settings::Config.ClubId + "/member/" + playerNames[i] + "/from-login");
+            routes.InsertLast("api/token/club/" + S_Advanced_ClubId + "/member/" + playerNames[i] + "/from-login");
         }
 
         array<Json::Value> accountInfos = FetchMany(Audience::NadeoLiveServices, routes);
@@ -107,7 +107,7 @@ namespace Api {
         return pbTimes[0]["recordScore"]["time"];
     }
 
-    array<int> GetPBTimes(const array<string> &in accountIds, const string &in mapId) {
+    array<int> GetPBTimes(array<string>@ accountIds, const string &in mapId) {
         Json::Value pbTimes = Fetch(Audience::NadeoServices, "mapRecords/?accountIdList=" + string::Join(accountIds, ",") + "&mapIdList=" + mapId);
         if (pbTimes.Length < 1) {
             throw("Failed to get pbTime for mapId: " + mapId);

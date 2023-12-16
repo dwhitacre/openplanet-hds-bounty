@@ -11,15 +11,16 @@ class PlayerVM {
         this.teamId = teamId;
     }
 
-    void Time() {
-        Display::RenderPlayerTime(this.time);
-    }
-
-    void Name() {
-        Display::RenderPlayer(this.name);
-    }
-
     int opCmp(PlayerVM@ other) {
         return TimeMgr::CompareTimes(this.time, other.time);
+    }
+
+    string ToString() {
+        return KeyValuesToString({
+            {"accountId", this.accountId},
+            {"name", this.name},
+            {"teamId", Text::Format("%d", this.teamId)},
+            {"time", Text::Format("%d", this.time)}
+        });
     }
 }
