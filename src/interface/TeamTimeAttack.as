@@ -52,9 +52,14 @@ namespace Interface {
 
     void RenderTTA() {
         RenderTTABountyName();
+        
+        if (!State::TTAIsLoaded) {
+            RenderStyledText("Loading TTA... Please wait..");
+        }
 
         int numCols = S_TTA_ShowTeamAverageTimes ? 3 : 2;
         if (UI::BeginTable("TTA_Table", numCols, UI::TableFlags::SizingFixedFit)) {
+
             for (uint i = 0; i < State::TTATeams.Length; i++) {
                 UI::TableNextRow();
                 RenderTTATeam(State::TTATeams[i]);

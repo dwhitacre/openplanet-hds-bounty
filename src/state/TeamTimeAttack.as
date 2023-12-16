@@ -43,6 +43,8 @@ namespace State {
 
             TTATeams[TTATeams.Length - 1].players.SortAsc();
         }
+
+        LogTrace("Loaded TTA");
     }
 
     void UpdateTTA(CTrackMania@ app) {
@@ -51,11 +53,15 @@ namespace State {
             TTAIsLoaded = true;
         }
 
+        LogTrace("Updating TTA State..");
+
         auto map = app.RootMap;
         TimeMgr::UpdateTimes(TTAPlayers, (!S_TTA_LockMapUid && map !is null && map.MapInfo.MapUid != "" && app.Editor is null) ? map.MapInfo.MapUid : S_TTA_MapUid);
         for (uint i = 0; i < TTATeams.Length; i++) {
             TTATeams[i].players.SortAsc();
         }
         TTATeams.SortAsc();
+
+        LogTrace("Updated TTA State");
     }
 }
