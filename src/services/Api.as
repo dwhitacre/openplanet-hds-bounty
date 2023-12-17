@@ -97,10 +97,26 @@ namespace Api {
         return accountIds;
     }
 
+    array<string>@ GetDisplayNames(array<string>@ accountIds) {
+        auto displayNamesDict = NadeoServices::GetDisplayNamesAsync(accountIds);
+        array<string> displayNames = {};
+        displayNames.Reserve(accountIds.Length);
+
+        for (uint i = 0; i < accountIds.Length; i++) {
+            if (displayNamesDict.Exists(accountIds[i])) {
+                string value = "";
+                displayNamesDict.Get(accountIds[i], value);
+                displayNames.InsertAt(i, value);
+            }
+        }
+
+        return displayNames;
+    }
+
     int GetPBTime(const string &in accountId, const string &in mapId) {
         Json::Value pbTimes = Fetch(Audience::NadeoServices, "mapRecords/?accountIdList=" + accountId + "&mapIdList=" + mapId);
         if (pbTimes.Length < 1 || pbTimes[0]["recordScore"] is null) {
-            trace("Failed to get pbTime for accountId: " + accountId + "and mapId: " + mapId);
+            LogWarning("Failed to get pbTime for accountId: " + accountId + "and mapId: " + mapId);
             return -1;
         }
         
@@ -134,5 +150,63 @@ namespace Api {
             throw("Failed to get mapInfo for mapUid: " + mapUid);
         }
         return mapInfo[0]["mapId"];
+    }
+
+    Campaign@ GetClubCampaign(int campaignId) {
+        string campaignIdStr = Text::Format("%d", campaignId);
+        Json::Value json = Fetch(Audience::NadeoLiveServices, "api/token/club/" + S_Advanced_ClubId + "/campaign/" + campaignIdStr);
+        if (json is null || json["campaignId"] != campaignId || json["campaign"] is null) {
+            LogError("Failed to get campaign: " + campaignIdStr);
+            return Campaign();
+        }
+        
+        Campaign campaign = Campaign(json["campaign"]["name"], json["campaign"]["leaderboardGroupUid"], json["campaignId"]);
+        for (uint i = 0; i < json["campaign"]["playlist"].Length; i++) {
+            campaign.playlist.InsertLast(CampaignMap(
+                json["campaign"]["playlist"][i]["id"],
+                json["campaign"]["playlist"][i]["position"],
+                json["campaign"]["playlist"][i]["mapUid"]
+            ));
+        }
+
+        LogTrace(campaign.ToString());
+        return campaign;
+    }
+
+    GroupLeaderboard@ GetGroupLeaderboard(string campaignUid) {
+        Json::Value json = Fetch(Audience::NadeoLiveServices, "api/token/leaderboard/group/" + campaignUid + "/top");
+        if (json is null || json["groupUid"] != campaignUid || json["tops"] is null) {
+            LogError("Failed to get group leaderboard: " + campaignUid);
+            return GroupLeaderboard();
+        }
+
+        GroupLeaderboard glb = GroupLeaderboard(json["groupUid"]);
+        for (uint i = 0; i < json["tops"].Length; i++) {
+            glb.tops.InsertLast(LeaderboardZone(
+                json["tops"][i]["zoneId"],
+                json["tops"][i]["zoneName"]
+            ));
+
+            for (uint j = 0; j < json["tops"][i]["top"].Length; j++) {
+                glb.tops[glb.tops.Length - 1].rankings.InsertLast(LeaderboardRanking(
+                    json["tops"][i]["top"][j]["accountId"],
+                    json["tops"][i]["top"][j]["zoneId"],
+                    json["tops"][i]["top"][j]["zoneName"],
+                    json["tops"][i]["top"][j]["position"],
+                    json["tops"][i]["top"][j]["sp"]
+                ));
+            }
+        }
+
+        LogTrace(glb.ToString());
+        return glb;
+    }
+
+    void GetMapLeaderboard(string campaignUid, string mapUid) {
+        Json::Value json = Fetch(Audience::NadeoLiveServices, "api/token/leaderboard/group/" + campaignUid + "/map/" + mapUid + "/top");
+        if (json is null || json["groupUid"] != campaignUid || json["tops"] is null) {
+            LogError("Failed to get map leaderboard: " + mapUid + ", for group: " + campaignUid);
+            // return GroupLeaderboard();
+        }
     }
 }

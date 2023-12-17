@@ -1,5 +1,5 @@
 namespace AccountMgr {
-    class AccountCache : Cache {
+    class AccountIdCache : Cache {
         string call(const string &in key) override {
             LogTrace("Getting account id for player: " + key);
             return Api::GetAccountId(key);
@@ -11,13 +11,31 @@ namespace AccountMgr {
         }
     }
 
-    AccountCache cache = AccountCache();
+    class DisplayNameCache : Cache {
+        string call(const string &in key) override {
+            LogTrace("Getting display name for accountId: " + key);
+            return Api::GetDisplayNames({ key })[0];
+        }
 
-    string GetAccountId(const string &in playerName) {
-        return cache.Get(playerName);
+        array<string> callMany(array<string>@ keys) override {
+            LogTrace("Getting display name for accountIds:\n" + ArrayToString(keys));
+            return Api::GetDisplayNames(keys);
+        }
     }
 
-    void Init(array<string>@ playerNames) {
-        cache.Init(playerNames);
+    AccountIdCache idCache = AccountIdCache();
+    DisplayNameCache nameCache = DisplayNameCache();
+
+    string GetAccountId(const string &in playerName) {
+        return idCache.Get(playerName);
+    }
+
+    string GetDisplayName(const string &in accountId) {
+        return nameCache.Get(accountId);
+    }
+
+    void Init(array<string>@ playerNames, array<string>@ accountIds = {}) {
+        idCache.Init(playerNames);
+        nameCache.Init(accountIds);
     }
 }
