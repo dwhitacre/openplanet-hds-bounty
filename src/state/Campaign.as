@@ -4,8 +4,9 @@ namespace State {
 
     bool CampaignIsLoaded = false;
 
-    void LoadCampaign() {
+    void LoadCampaign(CTrackMania@ app) {
         CampaignData = Api::GetClubCampaign(S_Campaign_CampaignId);
+        S_Campaign_GroupHighlightYourAccountId = "c7818ba0-5e85-408e-a852-f658e8b90eec"; // NadeoServices::GetAccountID();
         LoadLeaderboards();
     }
 
@@ -18,7 +19,7 @@ namespace State {
 
     void UpdateCampaign(CTrackMania@ app) {
         if (!CampaignIsLoaded) {
-            LoadCampaign();
+            LoadCampaign(app);
             CampaignIsLoaded = true;
         } else {
             LogTrace("Updating Campaign State..");

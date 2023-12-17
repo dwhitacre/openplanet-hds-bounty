@@ -12,13 +12,14 @@ namespace Interface {
 
     void RenderLeaderboardRankings(array<LeaderboardRanking@>@ rankings) {
         for (uint i = 0; i < rankings.Length; i++) {
+            bool isYou = S_Campaign_GroupHighlight && rankings[i].accountId == S_Campaign_GroupHighlightYourAccountId;
             UI::TableNextRow();
             UI::TableNextColumn();
-            RenderStyledText(Text::Format("%d", rankings[i].position), S_Campaign_GroupPlayerPositionColor);
+            RenderStyledText(Text::Format("%d", rankings[i].position), isYou ? S_Campaign_GroupHighlightPositionColor : S_Campaign_GroupPlayerPositionColor);
             UI::TableNextColumn();
-            RenderStyledText(rankings[i].name, S_Campaign_GroupPlayerNameColor);
+            RenderStyledText(rankings[i].name, isYou ? S_Campaign_GroupHighlightNameColor : S_Campaign_GroupPlayerNameColor);
             UI::TableNextColumn();
-            RenderStyledText(rankings[i].sp, S_Campaign_GroupPlayerScoreColor);
+            RenderStyledText(rankings[i].sp, isYou ? S_Campaign_GroupHighlightScoreColor : S_Campaign_GroupPlayerScoreColor);
         }
     }
 

@@ -18,3 +18,18 @@ vec3 S_Campaign_GroupPlayerNameColor = vec3(1, 1, 1);
 
 [Setting category="Campaign Display" color name="Campaign Leaderboard Player Score Color"]
 vec3 S_Campaign_GroupPlayerScoreColor = vec3(1, 1, 1);
+
+[Setting category="Campaign Display" name="Campaign Leaderboard Highlight Your Score"]
+bool S_Campaign_GroupHighlight = false;
+
+[Setting category="Campaign Display" color name="Campaign Leaderboard Highlight Position Color"]
+vec3 S_Campaign_GroupHighlightPositionColor = vec3(.94f, .77f, .19f);
+
+[Setting category="Campaign Display" color name="Campaign Leaderboard Highlight Name Color"]
+vec3 S_Campaign_GroupHighlightNameColor = vec3(.94f, .77f, .19f);
+
+[Setting category="Campaign Display" color name="Campaign Leaderboard Highlight Score Color"]
+vec3 S_Campaign_GroupHighlightScoreColor = vec3(.94f, .77f, .19f);
+
+[Setting category="Campaign Display" color name="Campaign Leaderboard Highlight Account Id" hidden]
+string S_Campaign_GroupHighlightYourAccountId = "";
