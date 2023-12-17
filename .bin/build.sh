@@ -17,6 +17,7 @@ PLUGIN_VERSION="$(cat $INFO_TOML | dos2unix | grep '^version' | cut -f 2 -d '=' 
 PLUGIN_NAME=$(echo "$PLUGIN_PRETTY_NAME" | tr -d '(),:;'\''"' | tr 'A-Z ' 'a-z-')
 PLUGIN_BUILD_DIR="$GIT_DIR/dist"
 PLUGIN_BUILD_NAME="$PLUGIN_BUILD_DIR/$PLUGIN_NAME-$PLUGIN_VERSION.op"
+PLUGIN_DIRTY_FLAG="$PLUGIN_BUILD_DIR/dirty"
 
 WATCH=false
 CI=false
@@ -51,6 +52,7 @@ function publish() {
     log "lgrey" "Waiting to publish when not busy.. Stop/Unload the plugin."
     while $busy; do
       cp $PLUGIN_BUILD_NAME $PLUGINS_DIR 2> /dev/null && busy=false
+      sleep 1
     done
     log "green" "Copied build to plugins directory: $PLUGINS_DIR"
   fi
@@ -58,8 +60,8 @@ function publish() {
 
 function publish_repeat() {
   while [[ true ]]; do
-    watch_fs $PLUGIN_BUILD_NAME
     publish
+    watch_fs $PLUGIN_DIRTY_FLAG
   done
 }
 
@@ -75,8 +77,8 @@ function build() {
   fi
 
   "$ZIP" a -mx1 -tzip $PLUGIN_BUILD_NAME $INFO_TOML $SRC_DIR
-  DIRTY=true
   log "lgreen" "Build complete: $PLUGIN_BUILD_NAME"
+  echo "$(date)" > $PLUGIN_DIRTY_FLAG
 }
 
 build

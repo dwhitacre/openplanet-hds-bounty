@@ -1,10 +1,15 @@
 class GroupLeaderboard {
     string groupUid = "";
+    string mapUid = "";
     array<LeaderboardZone@>@ tops = {};
 
     GroupLeaderboard() {}
     GroupLeaderboard(const string &in groupUid) {
         this.groupUid = groupUid;
+    }
+    GroupLeaderboard(const string &in groupUid, const string &in mapUid) {
+        this.groupUid = groupUid;
+        this.mapUid = mapUid;
     }
 
     string ToString() {
@@ -15,6 +20,7 @@ class GroupLeaderboard {
 
         return KeyValuesToString({
             {"groupUid", this.groupUid},
+            {"mapUid", this.mapUid},
             {"tops", ArrayToString(tops)}
         });
     }

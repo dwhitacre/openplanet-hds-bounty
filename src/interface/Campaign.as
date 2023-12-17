@@ -10,16 +10,16 @@ namespace Interface {
         }
     }
 
-    void RenderLeaderboardRankings(array<LeaderboardRanking@>@ rankings) {
+    void RenderLeaderboardRankings(array<LeaderboardRanking@>@ rankings, vec3 positionColor, vec3 nameColor, vec3 scoreColor, bool shouldHighlight, vec3 hPositionColor, vec3 hNameColor, vec3 hScoreColor) {
         for (uint i = 0; i < rankings.Length; i++) {
-            bool isYou = S_Campaign_GroupHighlight && rankings[i].accountId == S_Campaign_GroupHighlightYourAccountId;
+            bool isYou = shouldHighlight && rankings[i].accountId == S_Campaign_HighlightYourAccountId;
             UI::TableNextRow();
             UI::TableNextColumn();
-            RenderStyledText(Text::Format("%d", rankings[i].position), isYou ? S_Campaign_GroupHighlightPositionColor : S_Campaign_GroupPlayerPositionColor);
+            RenderStyledText(Text::Format("%d", rankings[i].position), isYou ? hPositionColor : positionColor);
             UI::TableNextColumn();
-            RenderStyledText(rankings[i].name, isYou ? S_Campaign_GroupHighlightNameColor : S_Campaign_GroupPlayerNameColor);
+            RenderStyledText(rankings[i].name, isYou ? hNameColor : nameColor);
             UI::TableNextColumn();
-            RenderStyledText(rankings[i].sp, isYou ? S_Campaign_GroupHighlightScoreColor : S_Campaign_GroupPlayerScoreColor);
+            RenderStyledText(rankings[i].sp, isYou ? hScoreColor : scoreColor);
         }
     }
 
@@ -33,8 +33,48 @@ namespace Interface {
                 for (uint i = 0; i < State::CampaignGLB.tops.Length; i++) {
                     if (State::CampaignGLB.tops[i].zoneName == S_Campaign_ZoneName) {
                         UI::TableNextRow();
-                        RenderLeaderboardRankings(State::CampaignGLB.tops[i].rankings);
+                        RenderLeaderboardRankings(
+                            State::CampaignGLB.tops[i].rankings,
+                            S_Campaign_GroupPlayerPositionColor,
+                            S_Campaign_GroupPlayerNameColor,
+                            S_Campaign_GroupPlayerScoreColor,
+                            S_Campaign_GroupHighlight,
+                            S_Campaign_GroupHighlightPositionColor,
+                            S_Campaign_GroupHighlightNameColor,
+                            S_Campaign_GroupHighlightScoreColor
+                        );
                         UI::TableNextRow();
+                    }
+                }
+                UI::TableNextRow();
+                UI::EndTable();
+            }
+        }
+    }
+
+    void RenderMapLeaderboards() {
+        if (S_Campaign_ShowMapsLeaderboards)
+        {
+            if (S_Campaign_ShowMapsHeader) RenderStyledText("Map Leaderboards", S_Campaign_MapsHeaderColor);
+
+            int numCols = 3;
+            if (UI::BeginTable("Campaign_MLBs_Table", numCols, UI::TableFlags::SizingFixedFit)) {
+                for (uint i = 0; i < State::CampaignMLBs.Length; i++) {
+                    for (uint j = 0; j < State::CampaignMLBs[i].tops.Length; j++) {
+                        if (State::CampaignMLBs[i].tops[j].zoneName == S_Campaign_ZoneName) {
+                            UI::TableNextRow();
+                            RenderLeaderboardRankings(
+                                State::CampaignMLBs[i].tops[j].rankings,
+                                S_Campaign_MapPlayerPositionColor,
+                                S_Campaign_MapPlayerNameColor,
+                                S_Campaign_MapPlayerScoreColor,
+                                S_Campaign_MapHighlight,
+                                S_Campaign_MapHighlightPositionColor,
+                                S_Campaign_MapHighlightNameColor,
+                                S_Campaign_MapHighlightScoreColor
+                            );
+                            UI::TableNextRow();
+                        }
                     }
                 }
                 UI::EndTable();
@@ -47,6 +87,7 @@ namespace Interface {
 
         if (State::CampaignIsLoaded) {
             RenderGroupLeaderboard();
+            RenderMapLeaderboards();
         } else {
             RenderStyledText("Loading Campaign... Please wait..");
         }

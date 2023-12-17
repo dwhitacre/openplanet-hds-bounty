@@ -202,11 +202,33 @@ namespace Api {
         return glb;
     }
 
-    void GetMapLeaderboard(string campaignUid, string mapUid) {
+    GroupLeaderboard@ GetMapLeaderboard(string campaignUid, string mapUid) {
         Json::Value json = Fetch(Audience::NadeoLiveServices, "api/token/leaderboard/group/" + campaignUid + "/map/" + mapUid + "/top");
-        if (json is null || json["groupUid"] != campaignUid || json["tops"] is null) {
+        if (json is null || json["groupUid"] != campaignUid || json["mapUid"] != mapUid || json["tops"] is null) {
             LogError("Failed to get map leaderboard: " + mapUid + ", for group: " + campaignUid);
-            // return GroupLeaderboard();
+            return GroupLeaderboard();
         }
+
+        GroupLeaderboard glb = GroupLeaderboard(json["groupUid"], json["mapUid"]);
+        for (uint i = 0; i < json["tops"].Length; i++) {
+            glb.tops.InsertLast(LeaderboardZone(
+                json["tops"][i]["zoneId"],
+                json["tops"][i]["zoneName"]
+            ));
+
+            for (uint j = 0; j < json["tops"][i]["top"].Length; j++) {
+                int sp = json["tops"][i]["top"][j]["score"];
+                glb.tops[glb.tops.Length - 1].rankings.InsertLast(LeaderboardRanking(
+                    json["tops"][i]["top"][j]["accountId"],
+                    json["tops"][i]["top"][j]["zoneId"],
+                    json["tops"][i]["top"][j]["zoneName"],
+                    json["tops"][i]["top"][j]["position"],
+                    Text::Format("%d", sp)
+                ));
+            }
+        }
+
+        LogTrace(glb.ToString());
+        return glb;
     }
 }
