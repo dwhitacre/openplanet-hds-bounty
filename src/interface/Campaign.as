@@ -14,11 +14,11 @@ namespace Interface {
         for (uint i = 0; i < rankings.Length; i++) {
             UI::TableNextRow();
             UI::TableNextColumn();
-            RenderStyledText(Text::Format("%d", rankings[i].position));
+            RenderStyledText(Text::Format("%d", rankings[i].position), S_Campaign_GroupPlayerPositionColor);
             UI::TableNextColumn();
-            RenderStyledText(AccountMgr::GetDisplayName(rankings[i].accountId));
+            RenderStyledText(rankings[i].name, S_Campaign_GroupPlayerNameColor);
             UI::TableNextColumn();
-            RenderStyledText(rankings[i].sp);
+            RenderStyledText(rankings[i].sp, S_Campaign_GroupPlayerScoreColor);
         }
     }
 
