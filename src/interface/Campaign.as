@@ -10,7 +10,7 @@ namespace Interface {
         }
     }
 
-    void RenderLeaderboardRankings(array<LeaderboardRanking@>@ rankings, vec3 positionColor, vec3 nameColor, vec3 scoreColor, bool shouldHighlight, vec3 hPositionColor, vec3 hNameColor, vec3 hScoreColor) {
+    void RenderLeaderboardRankings(array<LeaderboardRanking@>@ rankings, vec3 positionColor, vec3 nameColor, vec3 scoreColor, bool shouldHighlight, vec3 hPositionColor, vec3 hNameColor, vec3 hScoreColor, bool scoreIsTime = false) {
         for (uint i = 0; i < rankings.Length; i++) {
             bool isYou = shouldHighlight && rankings[i].accountId == S_Campaign_HighlightYourAccountId;
             UI::TableNextRow();
@@ -19,7 +19,8 @@ namespace Interface {
             UI::TableNextColumn();
             RenderStyledText(rankings[i].name, isYou ? hNameColor : nameColor);
             UI::TableNextColumn();
-            RenderStyledText(rankings[i].sp, isYou ? hScoreColor : scoreColor);
+            if (scoreIsTime) RenderTime(Text::ParseInt(rankings[i].sp), isYou ? hScoreColor : scoreColor);
+            else RenderStyledText(rankings[i].sp, isYou ? hScoreColor : scoreColor);
         }
     }
 
@@ -71,7 +72,8 @@ namespace Interface {
                                 S_Campaign_MapHighlight,
                                 S_Campaign_MapHighlightPositionColor,
                                 S_Campaign_MapHighlightNameColor,
-                                S_Campaign_MapHighlightScoreColor
+                                S_Campaign_MapHighlightScoreColor,
+                                true
                             );
                             UI::TableNextRow();
                         }
