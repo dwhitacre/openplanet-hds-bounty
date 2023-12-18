@@ -144,12 +144,16 @@ namespace Api {
         return times;
     }
 
-    string GetMapId(const string &in mapUid) {
+    Json::Value GetMapInfo(const string &in mapUid) {
         Json::Value mapInfo = Fetch(Audience::NadeoServices, "maps/?mapUidList=" + mapUid);
         if (mapInfo.Length < 1) {
             throw("Failed to get mapInfo for mapUid: " + mapUid);
         }
-        return mapInfo[0]["mapId"];
+        return mapInfo[0];
+    }
+
+    string GetMapId(const string &in mapUid) {
+        return GetMapInfo(mapUid)["mapId"];
     }
 
     Campaign@ GetClubCampaign(int campaignId) {

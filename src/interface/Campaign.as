@@ -59,10 +59,11 @@ namespace Interface {
             if (S_Campaign_ShowMapsHeader) RenderStyledText("Map Leaderboards", S_Campaign_MapsHeaderColor);
 
             int numCols = 3;
-            if (UI::BeginTable("Campaign_MLBs_Table", numCols, UI::TableFlags::SizingFixedFit)) {
-                for (uint i = 0; i < State::CampaignMLBs.Length; i++) {
-                    for (uint j = 0; j < State::CampaignMLBs[i].tops.Length; j++) {
-                        if (State::CampaignMLBs[i].tops[j].zoneName == S_Campaign_ZoneName) {
+            for (uint i = 0; i < State::CampaignMLBs.Length; i++) {
+                for (uint j = 0; j < State::CampaignMLBs[i].tops.Length; j++) {
+                    if (State::CampaignMLBs[i].tops[j].zoneName == S_Campaign_ZoneName) {
+                        if (S_Campaign_ShowMapHeader) RenderStyledText(State::CampaignMLBs[i].mapUid, S_Campaign_MapHeaderColor);
+                        if (UI::BeginTable("Campaign_MLBs_Table" + State::CampaignMLBs[i].mapUid, numCols, UI::TableFlags::SizingFixedFit)) {
                             UI::TableNextRow();
                             RenderLeaderboardRankings(
                                 State::CampaignMLBs[i].tops[j].rankings,
@@ -76,10 +77,10 @@ namespace Interface {
                                 true
                             );
                             UI::TableNextRow();
+                            UI::EndTable();
                         }
                     }
                 }
-                UI::EndTable();
             }
         }
     }

@@ -8,6 +8,7 @@ class CampaignMap {
         this.id = id;
         this.position = position;
         this.uid = uid;
+        Api::GetMapInfo(this.uid);
     }
 
     int opCmp(CampaignMap@ other) {
