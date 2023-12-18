@@ -6,7 +6,7 @@ namespace State {
 
     void LoadCampaign(CTrackMania@ app) {
         CampaignData = Api::GetClubCampaign(S_Campaign_CampaignId);
-        S_Campaign_GroupHighlightYourAccountId = "c7818ba0-5e85-408e-a852-f658e8b90eec"; // NadeoServices::GetAccountID();
+        S_Campaign_GroupHighlightYourAccountId = NadeoServices::GetAccountID();
         LoadLeaderboards();
     }
 

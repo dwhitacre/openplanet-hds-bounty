@@ -18,6 +18,10 @@ namespace Interface {
             RenderStyledText(Text::Format("%d", rankings[i].position), isYou ? S_Campaign_GroupHighlightPositionColor : S_Campaign_GroupPlayerPositionColor);
             UI::TableNextColumn();
             RenderStyledText(rankings[i].name, isYou ? S_Campaign_GroupHighlightNameColor : S_Campaign_GroupPlayerNameColor);
+            if (S_Campaign_ShowGroupPlayerZone) {
+                UI::TableNextColumn();
+                RenderStyledText(rankings[i].zoneName, isYou ? S_Campaign_GroupHighlightZoneColor : S_Campaign_GroupPlayerZoneColor);
+            }
             UI::TableNextColumn();
             RenderStyledText(rankings[i].sp, isYou ? S_Campaign_GroupHighlightScoreColor : S_Campaign_GroupPlayerScoreColor);
         }
@@ -28,7 +32,7 @@ namespace Interface {
         {
             if (S_Campaign_ShowGroupHeader) RenderStyledText("Campaign Leaderboard", S_Campaign_GroupHeaderColor);
 
-            int numCols = 3;
+            int numCols = S_Campaign_ShowGroupPlayerZone ? 4 : 3;
             if (UI::BeginTable("Campaign_GLB_Table", numCols, UI::TableFlags::SizingFixedFit)) {
                 for (uint i = 0; i < State::CampaignGLB.tops.Length; i++) {
                     if (State::CampaignGLB.tops[i].zoneName == S_Campaign_ZoneName) {
