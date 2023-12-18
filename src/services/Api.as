@@ -184,7 +184,7 @@ namespace Api {
             return GroupLeaderboard();
         }
 
-        GroupLeaderboard glb = GroupLeaderboard(json["groupUid"]);
+        GroupLeaderboard glb = GroupLeaderboard(json["groupUid"], "");
         for (uint i = 0; i < json["tops"].Length; i++) {
             glb.tops.InsertLast(LeaderboardZone(
                 json["tops"][i]["zoneId"],

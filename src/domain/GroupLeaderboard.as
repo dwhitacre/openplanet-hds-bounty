@@ -2,14 +2,13 @@ class GroupLeaderboard {
     string groupUid = "";
     string mapUid = "";
     array<LeaderboardZone@>@ tops = {};
+    CampaignMap map;
 
     GroupLeaderboard() {}
-    GroupLeaderboard(const string &in groupUid) {
-        this.groupUid = groupUid;
-    }
     GroupLeaderboard(const string &in groupUid, const string &in mapUid) {
         this.groupUid = groupUid;
         this.mapUid = mapUid;
+        if (mapUid != "") this.map = CampaignMap(mapUid);
     }
 
     string ToString() {
