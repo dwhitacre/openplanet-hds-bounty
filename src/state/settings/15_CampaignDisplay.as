@@ -28,6 +28,15 @@ vec3 S_Campaign_GroupPlayerScoreColor = vec3(1, 1, 1);
 [Setting category="Campaign Display" name="Campaign Leaderboard Highlight Your Score"]
 bool S_Campaign_GroupHighlight = false;
 
+[Setting category="Campaign Display" name="Campaign Leaderboard Highlight Rainbow"]
+bool S_Campaign_GroupHighlightRainbow = false;
+
+[Setting category="Campaign Display" name="Campaign Leaderboard Highlight Rainbow Color" hidden]
+vec3 S_Campaign_GroupHighlightRainbowColor = vec3(1, 0, 0);
+
+[Setting category="Campaign Display" name="Campaign Leaderboard Highlight Rainbow Interval" min=0.f max=.03f description="Step interval for rainbow effect. Smaller numbers mean slower transitions."]
+float S_Campaign_GroupHighlightRainbowInterval = 0.01f;
+
 [Setting category="Campaign Display" color name="Campaign Leaderboard Highlight Position Color"]
 vec3 S_Campaign_GroupHighlightPositionColor = vec3(.94f, .77f, .19f);
 

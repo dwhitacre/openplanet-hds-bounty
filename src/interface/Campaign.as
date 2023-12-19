@@ -11,20 +11,24 @@ namespace Interface {
     }
 
     void RenderLeaderboardRankings(array<LeaderboardRanking@>@ rankings) {
+        bool isRb = S_Campaign_GroupHighlightRainbow;
         for (uint i = 0; i < rankings.Length; i++) {
             bool isYou = S_Campaign_GroupHighlight && rankings[i].accountId == S_Campaign_GroupHighlightYourAccountId;
+
             UI::TableNextRow();
             UI::TableNextColumn();
-            RenderStyledText(Text::Format("%d", rankings[i].position), isYou ? S_Campaign_GroupHighlightPositionColor : S_Campaign_GroupPlayerPositionColor);
+            RenderStyledText(Text::Format("%d", rankings[i].position), isYou ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_GroupHighlightPositionColor) : S_Campaign_GroupPlayerPositionColor);
             UI::TableNextColumn();
-            RenderStyledText(rankings[i].name, isYou ? S_Campaign_GroupHighlightNameColor : S_Campaign_GroupPlayerNameColor);
+            RenderStyledText(rankings[i].name, isYou ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_GroupHighlightNameColor) : S_Campaign_GroupPlayerNameColor);
             if (S_Campaign_ShowGroupPlayerZone) {
                 UI::TableNextColumn();
-                RenderStyledText(rankings[i].zoneName, isYou ? S_Campaign_GroupHighlightZoneColor : S_Campaign_GroupPlayerZoneColor);
+                RenderStyledText(rankings[i].zoneName, isYou ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_GroupHighlightZoneColor) : S_Campaign_GroupPlayerZoneColor);
             }
             UI::TableNextColumn();
-            RenderStyledText(rankings[i].sp, isYou ? S_Campaign_GroupHighlightScoreColor : S_Campaign_GroupPlayerScoreColor);
+            RenderStyledText(rankings[i].sp, isYou ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_GroupHighlightScoreColor) : S_Campaign_GroupPlayerScoreColor);
+
         }
+        if (isRb) S_Campaign_GroupHighlightRainbowColor = Rainbow(S_Campaign_GroupHighlightRainbowColor);
     }
 
     void RenderGroupLeaderboard() {
