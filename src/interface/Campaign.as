@@ -51,7 +51,30 @@ namespace Interface {
             }
         }
 
-        if (isRb) S_Campaign_GroupHighlightRainbowColor = Rainbow(S_Campaign_GroupHighlightRainbowColor);
+        if (isRb || S_Campaign_MapHighlightRainbow) S_Campaign_GroupHighlightRainbowColor = Rainbow(S_Campaign_GroupHighlightRainbowColor);
+    }
+
+    void RenderMapLeaderboardRankings(array<LeaderboardRanking@>@ rankings) {
+        bool isRb = S_Campaign_MapHighlightRainbow;
+        
+        for (uint i = 0; i < rankings.Length; i++) {
+            if (i >= S_Campaign_MapNumRecords) continue;
+
+            bool isYou = rankings[i].accountId == S_Campaign_GroupHighlightYourAccountId;
+            bool shouldHighlight = isYou && S_Campaign_MapHighlight;
+
+            UI::TableNextRow();
+            UI::TableNextColumn();
+            RenderStyledText(Text::Format("%d", rankings[i].position), shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_MapHighlightPositionColor) : S_Campaign_MapPlayerPositionColor);
+            UI::TableNextColumn();
+            RenderStyledText(rankings[i].name, shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_MapHighlightNameColor) : S_Campaign_MapPlayerNameColor);
+            if (S_Campaign_ShowMapPlayerZone) {
+                UI::TableNextColumn();
+                RenderStyledText(rankings[i].zoneName, shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_MapHighlightZoneColor) : S_Campaign_MapPlayerZoneColor);
+            }
+            UI::TableNextColumn();
+            RenderTime(Text::ParseInt(rankings[i].sp), shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_MapHighlightScoreColor) : S_Campaign_MapPlayerScoreColor);
+        }
     }
 
     void RenderGroupLeaderboard() {
@@ -73,11 +96,36 @@ namespace Interface {
         }
     }
 
+    void RenderMapLeaderboards() {
+        if (S_Campaign_ShowMapLeaderboard)
+        {
+            if (S_Campaign_ShowMapHeader) RenderStyledText("Map Leaderboard", S_Campaign_MapHeaderColor);
+
+            int numCols = S_Campaign_ShowMapPlayerZone ? 4 : 3;
+            for (uint i = 0; i < State::CampaignMLBs.Length; i++) {
+                if (S_Campaign_ShowMapName) RenderStyledText(State::CampaignMLBs[i].mapName, S_Campaign_MapNameColor);
+
+                if (UI::BeginTable("Campaign_MLBs_Table" + State::CampaignMLBs[i].mapUid, numCols, UI::TableFlags::SizingFixedFit)) {
+                    for (uint j = 0; j < State::CampaignMLBs[i].tops.Length; j++) {
+                        if (State::CampaignMLBs[i].tops[j].zoneName == S_Campaign_ZoneName) {
+                            UI::TableNextRow();
+                            RenderMapLeaderboardRankings(State::CampaignMLBs[i].tops[j].rankings);
+                            UI::TableNextRow();
+                        }
+                    }
+                    UI::EndTable();
+                }
+            }
+
+        }
+    }
+
     void RenderCampaign() {
         RenderCampaignBountyName();
 
         if (State::CampaignIsLoaded) {
             RenderGroupLeaderboard();
+            RenderMapLeaderboards();
         } else {
             RenderStyledText("Loading Campaign... Please wait..");
         }

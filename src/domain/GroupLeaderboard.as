@@ -1,10 +1,14 @@
 class GroupLeaderboard {
     string groupUid = "";
+    string mapUid = "";
+    string mapName = "";
     array<LeaderboardZone@>@ tops = {};
 
     GroupLeaderboard() {}
-    GroupLeaderboard(const string &in groupUid) {
+    GroupLeaderboard(const string &in groupUid, const string &in mapUid = "") {
         this.groupUid = groupUid;
+        this.mapUid = mapUid;
+        if (this.mapUid != "") this.mapName = MapMgr::GetMapName(this.mapUid);
     }
 
     string ToString() {
@@ -15,6 +19,8 @@ class GroupLeaderboard {
 
         return KeyValuesToString({
             {"groupUid", this.groupUid},
+            {"mapUid", this.mapUid},
+            {"mapName", this.mapName},
             {"tops", ArrayToString(tops)}
         });
     }
