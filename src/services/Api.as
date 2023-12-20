@@ -209,4 +209,33 @@ namespace Api {
             // return GroupLeaderboard();
         }
     }
+
+    GroupLeaderboard@ GetYourLeaderboard(string campaignUid, string accountId) {
+        Json::Value json = Fetch(Audience::NadeoLiveServices, "api/token/leaderboard/group/" + campaignUid);
+        if (json is null || json["groupUid"] != campaignUid || json["zones"] is null) {
+            LogError("Failed to get your group leaderboard: " + campaignUid);
+            return GroupLeaderboard();
+        }
+
+        GroupLeaderboard glb = GroupLeaderboard(json["groupUid"]);
+        string yourZoneId = json["zones"][json["zones"].Length - 1]["zoneId"];
+        string yourZoneName = json["zones"][json["zones"].Length - 1]["zoneName"];
+        for (uint i = 0; i < json["zones"].Length; i++) {
+            glb.tops.InsertLast(LeaderboardZone(
+                json["zones"][i]["zoneId"],
+                json["zones"][i]["zoneName"]
+            ));
+
+            glb.tops[glb.tops.Length - 1].rankings.InsertLast(LeaderboardRanking(
+                accountId,
+                yourZoneId,
+                yourZoneName,
+                json["zones"][i]["ranking"]["position"],
+                json["sp"] is null ? "0" : json["sp"]
+            ));
+        }
+
+        LogTrace(glb.ToString());
+        return glb;
+    }
 }

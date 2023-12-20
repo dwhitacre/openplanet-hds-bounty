@@ -25,6 +25,9 @@ vec3 S_Campaign_GroupPlayerZoneColor = vec3(1, 1, 1);
 [Setting category="Campaign Display" color name="Campaign Leaderboard Player Score Color"]
 vec3 S_Campaign_GroupPlayerScoreColor = vec3(1, 1, 1);
 
+[Setting category="Campaign Display" name="Campaign Leaderboard Always Show Your Score" description="If you are not in the top 5, show your information at the bottom of the leaderboard."]
+bool S_Campaign_AlwaysShowYou = true;
+
 [Setting category="Campaign Display" name="Campaign Leaderboard Highlight Your Score"]
 bool S_Campaign_GroupHighlight = false;
 
