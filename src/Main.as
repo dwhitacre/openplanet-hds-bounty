@@ -3,8 +3,10 @@ void Main() {
     Api::Init();
 
     while (true) {
-        if (S_TTA_UseMode) State::UpdateTTA(app);
-        else State::UpdateCampaign(app);
+        if (S_Advanced_StateUpdateEnabled) {
+            if (S_TTA_UseMode) State::UpdateTTA(app);
+            else State::UpdateCampaign(app);
+        } else LogTrace("Skipped State Update.");
         sleep(S_Advanced_StateUpdateDelay);
     }
 }

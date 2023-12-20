@@ -1,3 +1,6 @@
+[Setting category="Advanced" name="State Update Enabled" description="If disabled, automatic refresh of state will not occur. There is no manual refresh at this time."]
+bool S_Advanced_StateUpdateEnabled = true;
+
 [Setting category="Advanced" name="State Update delay (ms)" description="Time in milliseconds for the plugin to wait between checking for updates in state. Lowering this may adversely affect performance."]
 int S_Advanced_StateUpdateDelay = 15000;
 
