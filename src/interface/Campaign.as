@@ -52,8 +52,6 @@ namespace Interface {
                 }
             }
         }
-
-        if (isRb || S_Campaign_MapHighlightRainbow) S_Campaign_GroupHighlightRainbowColor = Rainbow(S_Campaign_GroupHighlightRainbowColor);
     }
 
     void RenderMapLeaderboardRankings(array<LeaderboardRanking@>@ rankings) {
@@ -122,6 +120,67 @@ namespace Interface {
         }
     }
 
+    void RenderPrizeLeaderboards() {
+        if (S_Campaign_ShowPrizeLeaderboard)
+        {
+            if (S_Campaign_ShowPrizeHeader) RenderStyledText("Prize Leaderboard", S_Campaign_PrizeHeaderColor);
+
+            int numCols = S_Campaign_ShowPrizePlayerZone ? 4 : 3;
+            bool isRb = S_Campaign_PrizeHighlightRainbow;
+
+            if (UI::BeginTable("Campaign_Prize_Table", numCols, UI::TableFlags::SizingFixedFit)) {
+                for (uint i = 0; i < State::CampaignGLB.tops.Length; i++) {
+                    if (State::CampaignGLB.tops[i].zoneName == S_Campaign_ZoneName) {
+                        bool isYou = State::CampaignGLB.tops[i].rankings[0].accountId == S_Campaign_GroupHighlightYourAccountId;
+                        bool shouldHighlight = isYou && S_Campaign_PrizeHighlight;
+                        
+                        UI::TableNextRow();
+                        UI::TableNextColumn();
+                        RenderStyledText("Campaign Winner", shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_PrizeHighlightCategoryColor) : S_Campaign_PrizeCategoryColor);
+                        
+                        UI::TableNextColumn();
+                        RenderStyledText(State::CampaignGLB.tops[i].rankings[0].name, shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_PrizeHighlightPlayerColor) : S_Campaign_PrizePlayerColor);
+                        
+                        if (S_Campaign_ShowPrizePlayerZone) {
+                            UI::TableNextColumn();
+                            RenderStyledText(State::CampaignGLB.tops[i].rankings[0].zoneName, shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_PrizeHighlightZoneColor) : S_Campaign_PrizeZoneColor);
+                        }
+                        
+                        UI::TableNextColumn();
+                        RenderStyledText(Text::Format("$%d", S_Campaign_OverallPrizeAmount), shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_PrizeHighlightPrizeColor) : S_Campaign_PrizePrizeColor);
+                    }
+                }
+                
+                for (uint i = 0; i < State::CampaignMLBs.Length; i++) {
+                    for (uint j = 0; j < State::CampaignMLBs[i].tops.Length; j++) {
+                        if (State::CampaignMLBs[i].tops[j].zoneName == S_Campaign_ZoneName) {
+                            bool isYou = State::CampaignMLBs[i].tops[j].rankings[0].accountId == S_Campaign_GroupHighlightYourAccountId;
+                            bool shouldHighlight = isYou && S_Campaign_PrizeHighlight;
+                            
+                            UI::TableNextRow();
+                            UI::TableNextColumn();
+                            RenderStyledText(State::CampaignMLBs[i].mapName, shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_PrizeHighlightCategoryColor) : S_Campaign_PrizeCategoryColor);
+                            
+                            UI::TableNextColumn();
+                            RenderStyledText(State::CampaignMLBs[i].tops[j].rankings[0].name, shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_PrizeHighlightPlayerColor) : S_Campaign_PrizePlayerColor);
+                            
+                            if (S_Campaign_ShowPrizePlayerZone) {
+                                UI::TableNextColumn();
+                                RenderStyledText(State::CampaignMLBs[i].tops[j].rankings[0].zoneName, shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_PrizeHighlightZoneColor) : S_Campaign_PrizeZoneColor);
+                            }
+                            
+                            UI::TableNextColumn();
+                            RenderStyledText(Text::Format("$%d", S_Campaign_MapPrizeAmount), shouldHighlight ? (isRb ? S_Campaign_GroupHighlightRainbowColor : S_Campaign_PrizeHighlightPrizeColor) : S_Campaign_PrizePrizeColor);
+                        }
+                    }
+                }
+                
+                UI::EndTable();
+            }
+
+        }
+    }
+
     void RenderCampaign() {
         State::UpdateIsInBountyMap();
         RenderCampaignBountyName();
@@ -129,6 +188,8 @@ namespace Interface {
         if (State::CampaignIsLoaded) {
             RenderGroupLeaderboard();
             RenderMapLeaderboards();
+            RenderPrizeLeaderboards();
+            if (S_Campaign_GroupHighlightRainbow || S_Campaign_MapHighlightRainbow || S_Campaign_PrizeHighlightRainbow) S_Campaign_GroupHighlightRainbowColor = Rainbow(S_Campaign_GroupHighlightRainbowColor);
         } else {
             RenderStyledText("Loading Campaign... Please wait..");
         }
