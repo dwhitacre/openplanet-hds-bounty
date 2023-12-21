@@ -14,7 +14,10 @@ namespace Interface {
         int windowFlags = UI::WindowFlags::NoTitleBar | UI::WindowFlags::NoCollapse | UI::WindowFlags::AlwaysAutoResize | UI::WindowFlags::NoDocking;
         if (!UI::IsOverlayShown()) windowFlags |= UI::WindowFlags::NoInputs;
 
-        UI::PushStyleColor(UI::Col::WindowBg,vec4(.1,.1,.1,1));
+        S_Campaign_GroupHighlightRainbowColor = Rainbow(S_Campaign_GroupHighlightRainbowColor);
+
+        if (S_Window_Rainbow) UI::PushStyleColor(UI::Col::WindowBg, vec4(S_Campaign_GroupHighlightRainbowColor, 1));
+        else UI::PushStyleColor(UI::Col::WindowBg, vec4(.1, .1, .1, 1));
         UI::PushStyleVar(UI::StyleVar::WindowPadding, vec2(10, 10));
         UI::PushStyleVar(UI::StyleVar::WindowRounding, 10.0);
         UI::PushStyleVar(UI::StyleVar::FramePadding, vec2(10, 6));

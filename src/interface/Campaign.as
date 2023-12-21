@@ -189,7 +189,6 @@ namespace Interface {
             RenderGroupLeaderboard();
             RenderMapLeaderboards();
             RenderPrizeLeaderboards();
-            if (S_Campaign_GroupHighlightRainbow || S_Campaign_MapHighlightRainbow || S_Campaign_PrizeHighlightRainbow) S_Campaign_GroupHighlightRainbowColor = Rainbow(S_Campaign_GroupHighlightRainbowColor);
         } else {
             RenderStyledText("Loading Campaign... Please wait..");
         }

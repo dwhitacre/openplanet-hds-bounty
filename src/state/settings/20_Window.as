@@ -21,3 +21,6 @@ bool S_Window_Visible = true;
 
 [Setting category="Window" name="Window position"]
 vec2 S_Window_Anchor = vec2(0, 170);
+
+[Setting category="Window" name="Rainbow" description="I am not sure you want this."]
+bool S_Window_Rainbow = false;
