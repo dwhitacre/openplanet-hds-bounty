@@ -4,6 +4,9 @@ bool S_Campaign_ShowBountyName = true;
 [Setting category="Campaign Display" name="Show Campaign Leaderboard"]
 bool S_Campaign_ShowGroupLeaderboard = true;
 
+[Setting category="Campaign Display" min=1 max=5 name="Campaign Leaderboard Number of Records"]
+uint S_Campaign_GroupNumRecords = 5;
+
 [Setting category="Campaign Display" name="Show Campaign Leaderboard Header"]
 bool S_Campaign_ShowGroupHeader = true;
 

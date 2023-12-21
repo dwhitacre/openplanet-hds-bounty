@@ -15,6 +15,8 @@ namespace Interface {
         bool containsYou = false;
         
         for (uint i = 0; i < rankings.Length; i++) {
+            if (i >= S_Campaign_GroupNumRecords) continue;
+
             bool isYou = rankings[i].accountId == S_Campaign_GroupHighlightYourAccountId;
             bool shouldHighlight = isYou && S_Campaign_GroupHighlight;
             containsYou = containsYou || isYou;
