@@ -34,8 +34,8 @@ namespace Api {
         NadeoServices::AddAudience(getAudienceName(Audience::NadeoLiveServices));
         NadeoServices::AddAudience(getAudienceName(Audience::NadeoServices));
 
-        while (!NadeoServices::IsAuthenticated(getAudienceName(Audience::NadeoClubServices)) &&
-            !NadeoServices::IsAuthenticated(getAudienceName(Audience::NadeoLiveServices)) &&
+        while (!NadeoServices::IsAuthenticated(getAudienceName(Audience::NadeoClubServices)) ||
+            !NadeoServices::IsAuthenticated(getAudienceName(Audience::NadeoLiveServices)) ||
             !NadeoServices::IsAuthenticated(getAudienceName(Audience::NadeoServices))) 
         {
             yield();
