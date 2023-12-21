@@ -2,6 +2,10 @@ namespace Interface {
     void RenderWindow() {
         if (S_Window_HideWithIFace && !UI::IsGameUIVisible()) return;
         if (S_Window_HideWithOverlay && !UI::IsOverlayShown()) return;
+        if (S_Window_HideWhenNotInBountyMap && !S_Window_IsInBountyMap) {
+            State::UpdateIsInBountyMap();
+            return;
+        }
         if (!S_Window_Visible) return;
 
         if (S_Window_LockPosition) UI::SetNextWindowPos(int(S_Window_Anchor.x), int(S_Window_Anchor.y), UI::Cond::Always);

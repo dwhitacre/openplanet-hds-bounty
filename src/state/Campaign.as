@@ -16,6 +16,21 @@ namespace State {
         }
     }
 
+    void UpdateIsInBountyMap() {
+        if (CampaignIsLoaded && S_Window_HideWhenNotInBountyMap) {
+            auto app = cast<CTrackMania>(GetApp());
+            auto map = app.RootMap;
+            bool isInBountyMap = false;
+
+            if (map !is null && app.Editor is null && map.MapInfo.MapUid != "") {
+                for (uint i = 0; i < CampaignData.playlist.Length; i++) {
+                    isInBountyMap = isInBountyMap || CampaignData.playlist[i].uid == map.MapInfo.MapUid;
+                }
+            }
+            S_Window_IsInBountyMap = isInBountyMap;
+        }
+    }
+
     void LoadLeaderboards() {
         CampaignGLB = Api::GetGroupLeaderboard(CampaignData.leaderboardGroupUid);
         CampaignYLB = Api::GetYourLeaderboard(CampaignData.leaderboardGroupUid, S_Campaign_GroupHighlightYourAccountId);

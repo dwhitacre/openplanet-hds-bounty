@@ -123,6 +123,7 @@ namespace Interface {
     }
 
     void RenderCampaign() {
+        State::UpdateIsInBountyMap();
         RenderCampaignBountyName();
 
         if (State::CampaignIsLoaded) {
