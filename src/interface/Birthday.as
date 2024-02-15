@@ -27,6 +27,6 @@ namespace Interface {
         RenderBirthdayBountyName();
         RenderCountdown();
         RenderDiscordButton();
-        if (S_Birthday_BountyNameRainbow) S_Birthday_RainbowColor = Rainbow(S_Birthday_RainbowColor, S_Birthday_RainbowInterval);
+        if (S_Birthday_BountyNameRainbow || S_Birthday_CountdownRainbow) S_Birthday_RainbowColor = Rainbow(S_Birthday_RainbowColor, S_Birthday_RainbowInterval);
     }
 }
