@@ -1,6 +1,7 @@
 void Main() {
     auto app = cast<CTrackMania>(GetApp());
     Api::Init();
+    State::LoadFonts();
 
     while (true) {
         if (S_Advanced_StateUpdateEnabled) {

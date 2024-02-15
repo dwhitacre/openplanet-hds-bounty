@@ -1,3 +1,6 @@
+[Setting category="Campaign" name="Use Mode" description="Use the previous bounty gamemode of campaign."]
+bool S_Campaign_UseMode = false;
+
 [Setting category="Campaign" name="Campaign Id" description="The campaign id from trackmania.io for the current bounty"]
 int S_Campaign_CampaignId = 50483;
 
