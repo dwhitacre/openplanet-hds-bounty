@@ -21,7 +21,8 @@ namespace Interface {
         if (UI::Begin(State::PluginDisplayNameAndVersion, S_Window_Visible, windowFlags)) {
             if (!S_Window_LockPosition) S_Window_Anchor = UI::GetWindowPos();
             if (S_TTA_UseMode) RenderTTA();
-            else RenderCampaign();
+            else if (S_Campaign_UseMode) RenderCampaign();
+            else RenderBirthday();
             UI::End();
         }
         UI::PopStyleVar(3);
