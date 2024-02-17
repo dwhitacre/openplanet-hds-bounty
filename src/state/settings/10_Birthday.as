@@ -9,3 +9,6 @@ bool S_Birthday_LockMapUid = true;
 
 [Setting category="Birthday" name="Goal Player Account Id" description="The account id of the player to beat."]
 string S_Birthday_GoalPlayerAccountId = "e95b40f2-06b5-4094-95bf-92908df224a4";
+
+[Setting category="Birthday" name="Sync Settings" description="This will sync specific settings (eg MapUid, CountdownStartTime, etc) from the openplanet api to ensure they are up to date for an active bounty. Only disable this if you are using the plugin outside of the active bounty."]
+bool S_Birthday_SyncSettings = true;

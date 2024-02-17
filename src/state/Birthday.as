@@ -51,7 +51,17 @@ namespace State {
         LogTrace("Updated Birthday State");
     }
 
+    void UpdateBirthdaySettings() {
+        if (!S_Birthday_SyncSettings) return;
+
+        auto settings = Api::FetchSettings("birthday_settings");
+        if (settings.HasKey("mapUid")) S_Birthday_MapUid = settings.Get("mapUid");
+        if (settings.HasKey("countdownStartTime")) S_Birthday_CountdownStartTime = settings.Get("countdownStartTime");
+    }
+
     void UpdateBirthday(CTrackMania@ app) {
+        UpdateBirthdaySettings();
+        
         if (!BirthdayIsLoaded) {
             LoadBirthday(app);
             BirthdayIsLoaded = true;

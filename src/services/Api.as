@@ -271,4 +271,13 @@ namespace Api {
         LogTrace(glb.ToString());
         return glb;
     }
+
+    Json::Value FetchSettings(const string &in route) {
+        auto req = Net::HttpGet(S_Advanced_OpenplanetConfigUrl + "/" + route);
+        req.Start();
+        while (!req.Finished()) {
+            yield();
+        }
+        return Json::Parse(req.String());
+    }
 }
