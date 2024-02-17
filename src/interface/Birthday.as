@@ -1,4 +1,12 @@
 namespace Interface {
+    int64 getTimeLeft() {
+        return (S_Birthday_CountdownStartTime - Time::get_Stamp()) * 1000;
+    }
+
+    bool shouldRenderCountdown() {
+        return S_Birthday_ShowCountdown && getTimeLeft() >= 0;
+    }
+
     void RenderBirthdayBountyName() {
         if (S_Birthday_ShowBountyName)
         {
@@ -11,12 +19,14 @@ namespace Interface {
     }
 
     void RenderCountdown() {
-        auto timeLeft = (S_Birthday_CountdownStartTime - Time::get_Stamp()) * 1000;
         if (State::BigFont is null) return;
         UI::PushFont(State::BigFont);
-        if (timeLeft >= 0) RenderStyledText(Time::Format(timeLeft, false, true, true), S_Birthday_CountdownRainbow ? S_Birthday_RainbowColor : S_Birthday_CountdownColor);
-        else RenderStyledText("Bounty Started! Update your plugin.", S_Birthday_CountdownRainbow ? S_Birthday_RainbowColor : S_Birthday_CountdownColor);
+        RenderStyledText(Time::Format(getTimeLeft(), false, true, true), S_Birthday_CountdownRainbow ? S_Birthday_RainbowColor : S_Birthday_CountdownColor);
         UI::PopFont();
+    }
+
+    void RenderBirthdayMode() {
+        RenderStyledText("Bounty Started! Update your plugin.", S_Birthday_CountdownRainbow ? S_Birthday_RainbowColor : S_Birthday_CountdownColor);
     }
 
     void RenderDiscordButton() {
@@ -25,7 +35,8 @@ namespace Interface {
 
     void RenderBirthday() {
         RenderBirthdayBountyName();
-        RenderCountdown();
+        if (shouldRenderCountdown()) RenderCountdown();
+        else RenderBirthdayMode();
         RenderDiscordButton();
         if (S_Birthday_BountyNameRainbow || S_Birthday_CountdownRainbow) S_Birthday_RainbowColor = Rainbow(S_Birthday_RainbowColor, S_Birthday_RainbowInterval);
     }
