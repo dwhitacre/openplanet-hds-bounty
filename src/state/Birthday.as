@@ -1,7 +1,12 @@
 namespace State {
+    PlayerVM BirthdayGoalPlayer;
+    array<PlayerVM@> BirthdayPlayers = {};
+
     bool BirthdayIsLoaded = false;
 
     void LoadBirthday(CTrackMania@ app) {
+        BirthdayGoalPlayer = PlayerVM(S_Birthday_GoalPlayerAccountId);
+        BirthdayPlayers.InsertLast(BirthdayGoalPlayer);
     }
 
     void UpdateIsInBirthdayBountyMap() {
@@ -15,15 +20,21 @@ namespace State {
         }
     }
 
+    void UpdateBirthdayState(CTrackMania@ app) {
+        LogTrace("Updating Birthday State..");
+
+        auto map = app.RootMap;
+        TimeMgr::UpdateTimes(BirthdayPlayers, (!S_Birthday_LockMapUid && map !is null && map.MapInfo.MapUid != "" && app.Editor is null) ? map.MapInfo.MapUid : S_Birthday_MapUid);
+
+        LogTrace("Updated Birthday State");
+    }
+
     void UpdateBirthday(CTrackMania@ app) {
         if (!BirthdayIsLoaded) {
             LoadBirthday(app);
             BirthdayIsLoaded = true;
-        } else {
-            LogTrace("Updating Birthday State..");
-
-            LogTrace("Updated Birthday State");
         }
-
+        
+        UpdateBirthdayState(app);
     }
 }

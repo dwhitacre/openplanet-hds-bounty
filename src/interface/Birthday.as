@@ -25,8 +25,26 @@ namespace Interface {
         UI::PopFont();
     }
 
+    void RenderGoalPlayerTime() {
+        if (State::BirthdayGoalPlayer is null) return;
+
+        UI::TableNextRow();
+        UI::TableNextColumn();
+        RenderStyledText(State::BirthdayGoalPlayer.name, S_Birthday_GoalPlayerNameColor);
+        UI::TableNextColumn();
+        RenderTime(State::BirthdayGoalPlayer.time, S_Birthday_GoalPlayerScoreColor);
+    }
+
     void RenderBirthdayMode() {
-        RenderStyledText("Bounty Started! Update your plugin.", S_Birthday_CountdownRainbow ? S_Birthday_RainbowColor : S_Birthday_CountdownColor);
+        if (!State::BirthdayIsLoaded) {
+            RenderStyledText("Loading Birthday... Please wait..");
+            return;
+        }
+
+        if (UI::BeginTable("TTA_Table", 2, UI::TableFlags::SizingFixedFit)) {
+            RenderGoalPlayerTime();
+            UI::EndTable();
+        }
     }
 
     void RenderDiscordButton() {
