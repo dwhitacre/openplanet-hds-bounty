@@ -16,7 +16,7 @@ namespace Interface {
 
         UI::PushStyleColor(UI::Col::WindowBg,vec4(.1,.1,.1,1));
         UI::PushStyleVar(UI::StyleVar::WindowPadding, vec2(10, 10));
-        UI::PushStyleVar(UI::StyleVar::WindowRounding, 10.0);
+        UI::PushStyleVar(UI::StyleVar::WindowRounding, 5.0);
         UI::PushStyleVar(UI::StyleVar::FramePadding, vec2(10, 6));
         if (UI::Begin(State::PluginDisplayNameAndVersion, S_Window_Visible, windowFlags)) {
             if (!S_Window_LockPosition) S_Window_Anchor = UI::GetWindowPos();
