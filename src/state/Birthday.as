@@ -7,8 +7,13 @@ namespace State {
     bool BirthdayIsLoaded = false;
 
     void UpdateBirthdayTopPlayer() {
-        // TODO
-        BirthdayTopPlayer = PlayerVM(NadeoServices::GetAccountID()); // top on map account id        
+        auto mapLb = Api::GetMapLeaderboard("Personal_Best", S_Birthday_MapUid);
+        for (uint i = 0; i < mapLb.tops.Length; i++) {
+            if (mapLb.tops[i].zoneName.ToLower() == "world") {
+                BirthdayTopPlayer = PlayerVM(mapLb.tops[i].rankings[0].accountId);
+                break;
+            }
+        }    
     }
 
     void LoadBirthday(CTrackMania@ app) {
