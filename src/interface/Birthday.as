@@ -31,12 +31,12 @@ namespace Interface {
         UI::TableNextRow();
         if (S_Birthday_ShowPlayerLabel) {
             UI::TableNextColumn();
-            RenderStyledText(S_Birthday_GoalPlayerLabel, S_Birthday_GoalPlayerLabelColor);
+            RenderStyledText(S_Birthday_GoalPlayerLabel, S_Birthday_GoalPlayerRainbow ? S_Birthday_RainbowColor : S_Birthday_GoalPlayerLabelColor);
         }
         UI::TableNextColumn();
-        RenderStyledText(State::BirthdayGoalPlayer.name, S_Birthday_GoalPlayerNameColor);
+        RenderStyledText(State::BirthdayGoalPlayer.name, S_Birthday_GoalPlayerRainbow ? S_Birthday_RainbowColor : S_Birthday_GoalPlayerNameColor);
         UI::TableNextColumn();
-        RenderTime(State::BirthdayGoalPlayer.time, S_Birthday_GoalPlayerScoreColor);
+        RenderTime(State::BirthdayGoalPlayer.time, S_Birthday_GoalPlayerRainbow ? S_Birthday_RainbowColor : S_Birthday_GoalPlayerScoreColor);
     }
 
     void RenderCurrentPlayerTime() {
@@ -45,12 +45,12 @@ namespace Interface {
         UI::TableNextRow();
         if (S_Birthday_ShowPlayerLabel) {
             UI::TableNextColumn();
-            RenderStyledText(S_Birthday_CurrentPlayerLabel, S_Birthday_CurrentPlayerLabelColor);
+            RenderStyledText(S_Birthday_CurrentPlayerLabel, S_Birthday_CurrentPlayerRainbow ? S_Birthday_RainbowColor : S_Birthday_CurrentPlayerLabelColor);
         }
         UI::TableNextColumn();
-        RenderStyledText(State::BirthdayCurrentPlayer.name, S_Birthday_CurrentPlayerNameColor);
+        RenderStyledText(State::BirthdayCurrentPlayer.name, S_Birthday_CurrentPlayerRainbow ? S_Birthday_RainbowColor : S_Birthday_CurrentPlayerNameColor);
         UI::TableNextColumn();
-        RenderTime(State::BirthdayCurrentPlayer.time, S_Birthday_CurrentPlayerScoreColor);
+        RenderTime(State::BirthdayCurrentPlayer.time, S_Birthday_CurrentPlayerRainbow ? S_Birthday_RainbowColor : S_Birthday_CurrentPlayerScoreColor);
     }
 
     void RenderTopPlayerTime() {
@@ -59,12 +59,12 @@ namespace Interface {
         UI::TableNextRow();
         if (S_Birthday_ShowPlayerLabel) {
             UI::TableNextColumn();
-            RenderStyledText(S_Birthday_TopPlayerLabel, S_Birthday_TopPlayerLabelColor);
+            RenderStyledText(S_Birthday_TopPlayerLabel, S_Birthday_TopPlayerRainbow ? S_Birthday_RainbowColor : S_Birthday_TopPlayerLabelColor);
         }
         UI::TableNextColumn();
-        RenderStyledText(State::BirthdayTopPlayer.name, S_Birthday_TopPlayerNameColor);
+        RenderStyledText(State::BirthdayTopPlayer.name, S_Birthday_TopPlayerRainbow ? S_Birthday_RainbowColor : S_Birthday_TopPlayerNameColor);
         UI::TableNextColumn();
-        RenderTime(State::BirthdayTopPlayer.time, S_Birthday_TopPlayerScoreColor);
+        RenderTime(State::BirthdayTopPlayer.time, S_Birthday_TopPlayerRainbow ? S_Birthday_RainbowColor : S_Birthday_TopPlayerScoreColor);
     }
 
 
@@ -99,6 +99,6 @@ namespace Interface {
         if (shouldRenderCountdown()) RenderCountdown();
         else RenderBirthdayMode();
         RenderDiscordButton();
-        if (S_Birthday_BountyNameRainbow || S_Birthday_CountdownRainbow) S_Birthday_RainbowColor = Rainbow(S_Birthday_RainbowColor, S_Birthday_RainbowInterval);
+        if (S_Birthday_BountyNameRainbow || S_Birthday_CountdownRainbow || S_Birthday_GoalPlayerRainbow || S_Birthday_CurrentPlayerRainbow || S_Birthday_TopPlayerRainbow) S_Birthday_RainbowColor = Rainbow(S_Birthday_RainbowColor, S_Birthday_RainbowInterval);
     }
 }
