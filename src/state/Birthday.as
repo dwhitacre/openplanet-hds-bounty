@@ -10,7 +10,8 @@ namespace State {
         auto mapLb = Api::GetMapLeaderboard("Personal_Best", S_Birthday_MapUid);
         for (uint i = 0; i < mapLb.tops.Length; i++) {
             if (mapLb.tops[i].zoneName.ToLower() == "world") {
-                BirthdayTopPlayer = PlayerVM(mapLb.tops[i].rankings[0].accountId);
+                auto accountId = mapLb.tops[i].rankings[0].accountId;
+                if (BirthdayTopPlayer !is null && BirthdayTopPlayer.accountId != accountId) BirthdayTopPlayer = PlayerVM(accountId);
                 break;
             }
         }    
