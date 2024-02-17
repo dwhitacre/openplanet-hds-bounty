@@ -29,6 +29,10 @@ namespace Interface {
         if (State::BirthdayGoalPlayer is null) return;
 
         UI::TableNextRow();
+        if (S_Birthday_ShowPlayerLabel) {
+            UI::TableNextColumn();
+            RenderStyledText(S_Birthday_GoalPlayerLabel, S_Birthday_GoalPlayerLabelColor);
+        }
         UI::TableNextColumn();
         RenderStyledText(State::BirthdayGoalPlayer.name, S_Birthday_GoalPlayerNameColor);
         UI::TableNextColumn();
@@ -39,6 +43,10 @@ namespace Interface {
         if (State::BirthdayCurrentPlayer is null) return;
 
         UI::TableNextRow();
+        if (S_Birthday_ShowPlayerLabel) {
+            UI::TableNextColumn();
+            RenderStyledText(S_Birthday_CurrentPlayerLabel, S_Birthday_CurrentPlayerLabelColor);
+        }
         UI::TableNextColumn();
         RenderStyledText(State::BirthdayCurrentPlayer.name, S_Birthday_CurrentPlayerNameColor);
         UI::TableNextColumn();
@@ -49,6 +57,10 @@ namespace Interface {
         if (State::BirthdayTopPlayer is null) return;
 
         UI::TableNextRow();
+        if (S_Birthday_ShowPlayerLabel) {
+            UI::TableNextColumn();
+            RenderStyledText(S_Birthday_TopPlayerLabel, S_Birthday_TopPlayerLabelColor);
+        }
         UI::TableNextColumn();
         RenderStyledText(State::BirthdayTopPlayer.name, S_Birthday_TopPlayerNameColor);
         UI::TableNextColumn();
@@ -62,7 +74,8 @@ namespace Interface {
             return;
         }
 
-        if (UI::BeginTable("TTA_Table", 2, UI::TableFlags::SizingFixedFit)) {
+        int numCols = S_Birthday_ShowPlayerLabel ? 3 : 2;
+        if (UI::BeginTable("TTA_Table", numCols, UI::TableFlags::SizingFixedFit)) {
             RenderTopPlayerTime();
             RenderGoalPlayerTime();
             RenderCurrentPlayerTime();

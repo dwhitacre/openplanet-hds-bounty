@@ -28,11 +28,26 @@ vec3 S_Birthday_CountdownColor = vec3(1, 1, 1);
 [Setting category="Birthday Display" name="Show Countdown" description="Disable to hide the countdown manually. Simulates the timer being at 0."]
 bool S_Birthday_ShowCountdown = true;
 
+[Setting category="Birthday Display" name="Show Player Label"]
+bool S_Birthday_ShowPlayerLabel = true;
+
+[Setting category="Birthday Display" name="Birthday Goal Player Label"]
+string S_Birthday_GoalPlayerLabel = "Goal";
+
+[Setting category="Birthday Display" color name="Birthday Goal Player Label Color"]
+vec3 S_Birthday_GoalPlayerLabelColor = vec3(1, 1, 1);
+
 [Setting category="Birthday Display" color name="Birthday Goal Player Name Color"]
 vec3 S_Birthday_GoalPlayerNameColor = vec3(1, 1, 1);
 
 [Setting category="Birthday Display" color name="Birthday Goal Player Score Color"]
 vec3 S_Birthday_GoalPlayerScoreColor = vec3(1, 1, 1);
+
+[Setting category="Birthday Display" name="Birthday Current Player Label"]
+string S_Birthday_CurrentPlayerLabel = "PB";
+
+[Setting category="Birthday Display" color name="Birthday Current Player Label Color"]
+vec3 S_Birthday_CurrentPlayerLabelColor = vec3(1, 1, 1);
 
 [Setting category="Birthday Display" color name="Birthday Current Player Name Color"]
 vec3 S_Birthday_CurrentPlayerNameColor = vec3(1, 1, 1);
@@ -40,11 +55,17 @@ vec3 S_Birthday_CurrentPlayerNameColor = vec3(1, 1, 1);
 [Setting category="Birthday Display" color name="Birthday Current Player Score Color"]
 vec3 S_Birthday_CurrentPlayerScoreColor = vec3(1, 1, 1);
 
+[Setting category="Birthday Display" name="Birthday Top Player Label"]
+string S_Birthday_TopPlayerLabel = "WR";
+
+[Setting category="Birthday Display" color name="Birthday Top Player Label Color"]
+vec3 S_Birthday_TopPlayerLabelColor = vec3(1, 1, 1);
+
 [Setting category="Birthday Display" color name="Birthday Top Player Name Color"]
 vec3 S_Birthday_TopPlayerNameColor = vec3(1, 1, 1);
 
 [Setting category="Birthday Display" color name="Birthday Top Player Score Color"]
 vec3 S_Birthday_TopPlayerScoreColor = vec3(1, 1, 1);
 
-[Setting category="Birthday Display" color name="Discord Link"]
+[Setting category="Birthday Display" name="Discord Link"]
 string S_Birthday_DiscordLink = "https://discord.gg/yR5EtqAWW7";
