@@ -134,11 +134,13 @@ namespace Api {
 
         for (uint i = 0; i < pbTimes.Length; i++) {
             string accountId = pbTimes[i]["accountId"];
-            int accountIdIdx = accountIds.Find(accountId);
-
-            int time = -1;
-            if (accountIdIdx >= 0 && pbTimes[i]["recordScore"] !is null) time = pbTimes[i]["recordScore"]["time"];
-            times[accountIdIdx] = time;
+            for (uint j = 0; j < accountIds.Length; j++) {
+                if (accountId == accountIds[j]) {
+                    int time = -1;
+                    if (pbTimes[i]["recordScore"] !is null) time = pbTimes[i]["recordScore"]["time"];
+                    times[j] = time;
+                }
+            }
         }
         
         return times;
@@ -268,5 +270,14 @@ namespace Api {
 
         LogTrace(glb.ToString());
         return glb;
+    }
+
+    Json::Value FetchSettings(const string &in route) {
+        auto req = Net::HttpGet(S_Advanced_OpenplanetConfigUrl + "/" + route);
+        req.Start();
+        while (!req.Finished()) {
+            yield();
+        }
+        return Json::Parse(req.String());
     }
 }

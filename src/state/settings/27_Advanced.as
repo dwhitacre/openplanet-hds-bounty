@@ -9,3 +9,6 @@ string S_Advanced_ClubId = "50092";
 
 [Setting category="Advanced" name="Developer log trace" description="Log way too much info. Only need to enable this when trying to capture logs for reporting issues."]
 bool S_Advanced_DevLog = false;
+
+[Setting category="Advanced" name="Openplanel Config Url" description="This is used to sync plugin settings."]
+string S_Advanced_OpenplanetConfigUrl = "https://openplanet.dev/plugin/hdsbounty/config";

@@ -10,6 +10,10 @@ class PlayerVM {
         this.name = name;
         this.teamId = teamId;
     }
+    PlayerVM(const string &in accountId) {
+        this.name = AccountMgr::GetDisplayName(accountId);
+        this.accountId = accountId;
+    }
 
     int opCmp(PlayerVM@ other) {
         return TimeMgr::CompareTimes(this.time, other.time);

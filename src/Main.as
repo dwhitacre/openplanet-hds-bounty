@@ -7,6 +7,7 @@ void Main() {
         if (S_Advanced_StateUpdateEnabled) {
             if (S_TTA_UseMode) State::UpdateTTA(app);
             else if (S_Campaign_UseMode) State::UpdateCampaign(app);
+            else if (S_Birthday_UseMode) State::UpdateBirthday(app);
         } else LogTrace("Skipped State Update.");
         sleep(S_Advanced_StateUpdateDelay);
     }
