@@ -46,6 +46,7 @@ namespace State {
 
         auto map = app.RootMap;
         TimeMgr::UpdateTimes(BirthdayPlayers, (!S_Birthday_LockMapUid && map !is null && map.MapInfo.MapUid != "" && app.Editor is null) ? map.MapInfo.MapUid : S_Birthday_MapUid);
+        BirthdayPlayers.SortAsc();
 
         LogTrace("Updated Birthday State");
     }

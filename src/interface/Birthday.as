@@ -75,10 +75,16 @@ namespace Interface {
         }
 
         int numCols = S_Birthday_ShowPlayerLabel ? 3 : 2;
-        if (UI::BeginTable("TTA_Table", numCols, UI::TableFlags::SizingFixedFit)) {
-            RenderTopPlayerTime();
-            RenderGoalPlayerTime();
-            RenderCurrentPlayerTime();
+        if (UI::BeginTable("Birthday_Table", numCols, UI::TableFlags::SizingFixedFit)) {
+            for (uint i = 0; i < State::BirthdayPlayers.Length; i++) {
+                if (State::BirthdayPlayers[i] is State::BirthdayTopPlayer) {
+                    RenderTopPlayerTime();
+                } else if (State::BirthdayPlayers[i] is State::BirthdayGoalPlayer) {
+                    RenderGoalPlayerTime();
+                } else if (State::BirthdayPlayers[i] is State::BirthdayCurrentPlayer) {
+                    RenderCurrentPlayerTime();
+                }
+            }
             UI::EndTable();
         }
     }
