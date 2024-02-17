@@ -1,5 +1,6 @@
 namespace State {
     PlayerVM BirthdayGoalPlayer;
+    PlayerVM BirthdayCurrentPlayer;
     array<PlayerVM@> BirthdayPlayers = {};
 
     bool BirthdayIsLoaded = false;
@@ -7,6 +8,9 @@ namespace State {
     void LoadBirthday(CTrackMania@ app) {
         BirthdayGoalPlayer = PlayerVM(S_Birthday_GoalPlayerAccountId);
         BirthdayPlayers.InsertLast(BirthdayGoalPlayer);
+        
+        BirthdayCurrentPlayer = PlayerVM(NadeoServices::GetAccountID());
+        BirthdayPlayers.InsertLast(BirthdayCurrentPlayer);
     }
 
     void UpdateIsInBirthdayBountyMap() {

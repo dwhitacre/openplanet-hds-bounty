@@ -35,6 +35,16 @@ namespace Interface {
         RenderTime(State::BirthdayGoalPlayer.time, S_Birthday_GoalPlayerScoreColor);
     }
 
+    void RenderCurrentPlayerTime() {
+        if (State::BirthdayCurrentPlayer is null) return;
+
+        UI::TableNextRow();
+        UI::TableNextColumn();
+        RenderStyledText(State::BirthdayCurrentPlayer.name, S_Birthday_CurrentPlayerNameColor);
+        UI::TableNextColumn();
+        RenderTime(State::BirthdayCurrentPlayer.time, S_Birthday_CurrentPlayerScoreColor);
+    }
+
     void RenderBirthdayMode() {
         if (!State::BirthdayIsLoaded) {
             RenderStyledText("Loading Birthday... Please wait..");
@@ -43,6 +53,7 @@ namespace Interface {
 
         if (UI::BeginTable("TTA_Table", 2, UI::TableFlags::SizingFixedFit)) {
             RenderGoalPlayerTime();
+            RenderCurrentPlayerTime();
             UI::EndTable();
         }
     }
