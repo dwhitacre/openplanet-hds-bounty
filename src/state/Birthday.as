@@ -1,9 +1,15 @@
 namespace State {
     PlayerVM BirthdayGoalPlayer;
     PlayerVM BirthdayCurrentPlayer;
+    PlayerVM BirthdayTopPlayer;
     array<PlayerVM@> BirthdayPlayers = {};
 
     bool BirthdayIsLoaded = false;
+
+    void UpdateBirthdayTopPlayer() {
+        // TODO
+        BirthdayTopPlayer = PlayerVM(NadeoServices::GetAccountID()); // top on map account id        
+    }
 
     void LoadBirthday(CTrackMania@ app) {
         BirthdayGoalPlayer = PlayerVM(S_Birthday_GoalPlayerAccountId);
@@ -11,6 +17,9 @@ namespace State {
         
         BirthdayCurrentPlayer = PlayerVM(NadeoServices::GetAccountID());
         BirthdayPlayers.InsertLast(BirthdayCurrentPlayer);
+
+        UpdateBirthdayTopPlayer();
+        BirthdayPlayers.InsertLast(BirthdayTopPlayer);
     }
 
     void UpdateIsInBirthdayBountyMap() {
@@ -26,6 +35,8 @@ namespace State {
 
     void UpdateBirthdayState(CTrackMania@ app) {
         LogTrace("Updating Birthday State..");
+
+        UpdateBirthdayTopPlayer();
 
         auto map = app.RootMap;
         TimeMgr::UpdateTimes(BirthdayPlayers, (!S_Birthday_LockMapUid && map !is null && map.MapInfo.MapUid != "" && app.Editor is null) ? map.MapInfo.MapUid : S_Birthday_MapUid);

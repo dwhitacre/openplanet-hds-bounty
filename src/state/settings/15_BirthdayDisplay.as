@@ -40,5 +40,11 @@ vec3 S_Birthday_CurrentPlayerNameColor = vec3(1, 1, 1);
 [Setting category="Birthday Display" color name="Birthday Current Player Score Color"]
 vec3 S_Birthday_CurrentPlayerScoreColor = vec3(1, 1, 1);
 
+[Setting category="Birthday Display" color name="Birthday Top Player Name Color"]
+vec3 S_Birthday_TopPlayerNameColor = vec3(1, 1, 1);
+
+[Setting category="Birthday Display" color name="Birthday Top Player Score Color"]
+vec3 S_Birthday_TopPlayerScoreColor = vec3(1, 1, 1);
+
 [Setting category="Birthday Display" color name="Discord Link"]
 string S_Birthday_DiscordLink = "https://discord.gg/yR5EtqAWW7";
