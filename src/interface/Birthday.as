@@ -34,6 +34,7 @@ namespace Interface {
     }
 
     void RenderBirthday() {
+        State::UpdateIsInBirthdayBountyMap();
         RenderBirthdayBountyName();
         if (shouldRenderCountdown()) RenderCountdown();
         else RenderBirthdayMode();

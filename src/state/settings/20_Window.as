@@ -4,7 +4,7 @@ bool S_Window_HideWithIFace = false;
 [Setting category="Window" name="Hide when the Openplanet overlay is hidden"]
 bool S_Window_HideWithOverlay = false;
 
-[Setting category="Window" name="Hide when a bounty map is not being played" description="Only compatible with Campaign mode"]
+[Setting category="Window" name="Hide when a bounty map is not being played" description="Not compatible with TTA mode"]
 bool S_Window_HideWhenNotInBountyMap = false;
 
 [Setting category="Window" name="Is In Bounty Map" hidden]

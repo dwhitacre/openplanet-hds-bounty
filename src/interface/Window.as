@@ -4,6 +4,7 @@ namespace Interface {
         if (S_Window_HideWithOverlay && !UI::IsOverlayShown()) return;
         if (S_Window_HideWhenNotInBountyMap && !S_Window_IsInBountyMap) {
             State::UpdateIsInBountyMap();
+            State::UpdateIsInBirthdayBountyMap();
             return;
         }
         if (!S_Window_Visible) return;
@@ -22,7 +23,7 @@ namespace Interface {
             if (!S_Window_LockPosition) S_Window_Anchor = UI::GetWindowPos();
             if (S_TTA_UseMode) RenderTTA();
             else if (S_Campaign_UseMode) RenderCampaign();
-            else RenderBirthday();
+            else if (S_Birthday_UseMode) RenderBirthday();
             UI::End();
         }
         UI::PopStyleVar(3);
