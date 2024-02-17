@@ -16,7 +16,7 @@ float S_Birthday_RainbowInterval = 0.01f;
 [Setting category="Birthday Display" color name="Bounty Name Color"]
 vec3 S_Birthday_BountyNameColor = vec3(1, 1, 1);
 
-[Setting category="Birthday Display" name="Countdown Start Time"]
+[Setting category="Birthday Display" name="Countdown Start Time" hidden]
 int64 S_Birthday_CountdownStartTime = 1708686000;
 
 [Setting category="Birthday Display" name="Countdown Rainbow"]
