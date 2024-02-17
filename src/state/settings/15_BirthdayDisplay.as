@@ -25,7 +25,7 @@ bool S_Birthday_CountdownRainbow = false;
 [Setting category="Birthday Display" color name="Countdown Color"]
 vec3 S_Birthday_CountdownColor = vec3(1, 1, 1);
 
-[Setting category="Birthday Display" name="Show Countdown" description="Disable to hide the countdown manually. Simulates the timer being at 0."]
+[Setting category="Birthday Display" name="Show Countdown" description="Disable to hide the countdown manually. Simulates the timer being at 0." hidden]
 bool S_Birthday_ShowCountdown = true;
 
 [Setting category="Birthday Display" name="Show Player Label"]
