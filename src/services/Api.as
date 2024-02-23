@@ -126,7 +126,7 @@ namespace Api {
     array<int> GetPBTimes(array<string>@ accountIds, const string &in mapId) {
         Json::Value pbTimes = Fetch(Audience::NadeoServices, "mapRecords/?accountIdList=" + string::Join(accountIds, ",") + "&mapIdList=" + mapId);
         if (pbTimes.Length < 1) {
-            throw("Failed to get pbTime for mapId: " + mapId);
+            LogTrace("Failed to get pbTime for mapId: " + mapId);
         }
 
         array<int> times = {};
