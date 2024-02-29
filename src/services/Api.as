@@ -8,7 +8,6 @@ namespace Api {
     string getAudienceName(const Audience &in aud) {
         switch (aud) {
             case Audience::NadeoClubServices:
-                return "NadeoClubServices";
             case Audience::NadeoLiveServices:
                 return "NadeoLiveServices";
             case Audience::NadeoServices:
@@ -20,7 +19,7 @@ namespace Api {
     string getUrl(const Audience &in aud) {
         switch (aud) {
             case Audience::NadeoClubServices:
-                return NadeoServices::BaseURLClub();
+                return NadeoServices::BaseURLMeet();
             case Audience::NadeoLiveServices:
                 return NadeoServices::BaseURLLive();
             case Audience::NadeoServices:
